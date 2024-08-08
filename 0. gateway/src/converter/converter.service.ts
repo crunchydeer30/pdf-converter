@@ -11,7 +11,11 @@ export class ConverterService {
 
   async pingConverterService() {
     return this.converterService
-      .send('ping_gateway', 'ping')
+      .send('ping_from_gateway', 'ping')
       .pipe(map((res: Response) => res));
+  }
+
+  async pingWorker() {
+    return this.converterService.emit('ping_worker', '');
   }
 }

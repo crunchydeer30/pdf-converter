@@ -9,4 +9,9 @@ export class ConverterController {
   async pingConverterMicroservice() {
     return this.converterService.pingConverterService();
   }
+
+  @Get('ping-worker')
+  async pingWorker() {
+    await this.converterService.pingWorker();
+  }
 }
