@@ -1,12 +1,19 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { AppService } from './app.service';
+import { EventPattern, Payload, RmqContext, Ctx } from '@nestjs/microservices';
+import { ack } from './utils';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @EventPattern('ping_from_service')
+  async pingFromService(
+    @Payload() message: { message: string },
+    @Ctx() ctx: RmqContext,
+  ) {
+    ack(ctx);
+    console.log('Message from service: ', message);
+    await this.appService.pingService();
   }
 }
