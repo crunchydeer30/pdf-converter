@@ -5,6 +5,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { RmqUrl } from '@nestjs/microservices/external/rmq-url.interface';
+import { WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
+import {
+  ElasticsearchTransport,
+  ElasticsearchTransformer,
+  LogData,
+} from 'winston-elasticsearch';
 
 @Module({
   imports: [
@@ -14,6 +21,9 @@ import { RmqUrl } from '@nestjs/microservices/external/rmq-url.interface';
         PORT: Joi.number().required(),
         RMQ_URL: Joi.string().required(),
         RMQ_CONVERTER_RESPONSE_QUEUE: Joi.string().required(),
+        ELASTICSEARCH_URL: Joi.string().required(),
+        ELASTICSEARCH_USERNAME: Joi.string().required(),
+        ELASTICSEARCH_PASSWORD: Joi.string().required(),
       }),
     }),
     ClientsModule.registerAsync([
@@ -29,6 +39,30 @@ import { RmqUrl } from '@nestjs/microservices/external/rmq-url.interface';
         inject: [ConfigService],
       },
     ]),
+    WinstonModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        level: 'info',
+        defaultMeta: { service: 'converter-service' },
+        transports: [
+          new winston.transports.Console({
+            format: winston.format.cli(),
+          }),
+          new ElasticsearchTransport({
+            level: 'debug',
+            transformer: (logData: LogData) =>
+              ElasticsearchTransformer(logData),
+            clientOpts: {
+              node: configService.get('ELASTICSEARCH_URL'),
+              auth: {
+                username: configService.get('ELASTICSEARCH_USERNAME'),
+                password: configService.get('ELASTICSEARCH_PASSWORD'),
+              },
+            },
+          }),
+        ],
+      }),
+      inject: [ConfigService],
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
