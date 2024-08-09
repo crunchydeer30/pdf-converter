@@ -13,7 +13,6 @@ export class AppController {
     @Ctx() ctx: RmqContext,
   ) {
     ack(ctx);
-    console.log('Message from service: ', message);
     await this.appService.pingService();
   }
 }
