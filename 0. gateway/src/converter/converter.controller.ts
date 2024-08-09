@@ -1,9 +1,14 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Inject } from '@nestjs/common';
 import { ConverterService } from './converter.service';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import { Logger } from 'winston';
 
 @Controller('converter')
 export class ConverterController {
-  constructor(private readonly converterService: ConverterService) {}
+  constructor(
+    private readonly converterService: ConverterService,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+  ) {}
 
   @Get('ping')
   async pingConverterMicroservice() {
