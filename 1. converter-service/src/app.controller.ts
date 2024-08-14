@@ -22,7 +22,6 @@ export class AppController {
 
   @MessagePattern('ping_worker')
   async pingWorker() {
-    // Test change
     await this.appService.pingWorker();
   }
 
