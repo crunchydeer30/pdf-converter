@@ -1,0 +1,59 @@
+on:
+  pull_request:
+    branches: ["main", "develop"]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            gateway:
+              - '0. gateway/**'
+            converter-service:
+              - '1. converter-service/**'
+            converter-worker:
+              - '2. converter-worker/**'
+
+      - name: Setup pnpm
+        if: contains(steps.filter.outputs.*, 'true')
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
+      # Gateway CI
+      - name: GATEWAY dependencies
+        if: steps.filter.outputs.gateway == 'true'
+        working-directory: "0. gateway"
+        run: pnpm i
+
+      - name: GATEWAY lint
+        if: steps.filter.outputs.gateway == 'true'
+        working-directory: "0. gateway"
+        run: pnpm lint
+
+      # Converter Service CI
+      - name: CONVERTER-SERVICE dependencies
+        if: steps.filter.outputs.converter-service == 'true'
+        working-directory: "1. converter-service"
+        run: pnpm i
+
+      - name: CONVERTER-SERVICE lint
+        if: steps.filter.outputs.converter-service == 'true'
+        working-directory: "1. converter-service"
+        run: pnpm lint
+
+      # Converter Worker CI
+      - name: CONVERTER-WORKER dependencies
+        if: steps.filter.outputs.converter-worker == 'true'
+        working-directory: "2. converter-worker"
+        run: pnpm i
+
+      - name: CONVERTER-WORKER lint
+        if: steps.filter.outputs.converter-worker == 'true'
+        working-directory: "2. converter-worker"
+        run: pnpm lint

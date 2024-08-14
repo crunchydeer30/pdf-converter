@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, UseFilters } from '@nestjs/common';
 import { AppService } from './app.service';
 import {
   Ctx,
@@ -8,7 +8,9 @@ import {
   RmqContext,
 } from '@nestjs/microservices';
 import { ack } from './utils';
+import { HttpExceptionFilter } from './filters/http-exceptions.filter';
 
+@UseFilters(HttpExceptionFilter)
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
