@@ -23,6 +23,7 @@ export class AppController {
   @MessagePattern('ping_worker')
   async pingWorker() {
     // Make changes
+    // Make more changes
     await this.appService.pingWorker();
   }
 
