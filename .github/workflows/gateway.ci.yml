@@ -1,5 +1,7 @@
 on:
-  - push
+  pull_request:
+    branches:
+      - workflow
 
 jobs:
   install:
@@ -15,7 +17,6 @@ jobs:
               - '0. gateway/**'
             converter-service:
               - '1. converter-service/**'
-          base: HEAD~1
 
       - name: Setup pnpm
         if: contains(steps.filter.outputs.*, 'true')
