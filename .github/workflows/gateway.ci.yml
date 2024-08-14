@@ -5,22 +5,32 @@ on:
       - "!0. gateway/**"
 
 jobs:
-  ci:
+  install:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            gateway:
+              - '0. gateway/**'
+            converter-service:
+              - '1. converter-service/**'
 
       - name: Setup pnpm
+        if: contains(steps.filter.outputs.*, 'true')
         uses: pnpm/action-setup@v4
         with:
           version: 8
 
-      - name: Install dependencies
+      - name: gateway ci
+        if: steps.filter.outputs.gateway == 'true'
         working-directory: "0. gateway"
-        run: pnpm install
+        run: pnpm install && pnpm i --frozen-lockfile && pnpm lint
 
-      - name: Lint
-        working-directory: "0. gateway"
-        run: pnpm lint
+      - name: converter-service ci
+        if: steps.filter.outputs.converter-service == 'true'
+        working-directory: "1. converter-service"
+        run: pnpm install && pnpm i --frozen-lockfile && pnpm lint
