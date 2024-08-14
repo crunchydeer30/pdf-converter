@@ -28,7 +28,7 @@ jobs:
       - name: gateway dependencies
         if: steps.filter.outputs.gateway == 'true'
         working-directory: "0. gateway"
-        run: pnpm i --frozen-lockfile
+        run: pnpm i
 
       - name: gateway lint
         if: steps.filter.outputs.gateway == 'true'
@@ -39,7 +39,7 @@ jobs:
       - name: converter-service dependencies
         if: steps.filter.outputs.converter-service == 'true'
         working-directory: "1. converter-service"
-        run: pnpm i --frozen-lockfile
+        run: pnpm i
 
       - name: converter-service lint
         if: steps.filter.outputs.converter-service == 'true'
