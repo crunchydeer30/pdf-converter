@@ -17,7 +17,6 @@ export class ConverterController {
 
   @Get('ping-worker')
   async pingWorker() {
-    // Make changes
     await this.converterService.pingWorker();
   }
 }
