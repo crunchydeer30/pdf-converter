@@ -17,6 +17,7 @@ export class ConverterController {
 
   @Get('ping-worker')
   async pingWorker() {
+    // Change gateway
     await this.converterService.pingWorker();
   }
 }
