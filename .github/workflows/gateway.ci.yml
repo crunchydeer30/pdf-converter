@@ -15,6 +15,7 @@ jobs:
               - '0. gateway/**'
             converter-service:
               - '1. converter-service/**'
+          base: HEAD
 
       - name: Setup pnpm
         if: contains(steps.filter.outputs.*, 'true')
