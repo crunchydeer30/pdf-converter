@@ -1,7 +1,7 @@
 on:
   push:
     paths-ignore:
-      - "*"
+      - "**/*"
       - "!0. gateway/**"
 
 jobs:
