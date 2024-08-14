@@ -11,6 +11,7 @@ import {
   ElasticsearchTransformer,
   LogData,
 } from 'winston-elasticsearch';
+import { UtilsModule } from './utils/utils.module';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import {
       inject: [ConfigService],
     }),
     ConverterModule,
+    UtilsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
