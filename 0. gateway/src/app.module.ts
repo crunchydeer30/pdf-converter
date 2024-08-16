@@ -12,6 +12,7 @@ import {
   LogData,
 } from 'winston-elasticsearch';
 import { UtilsModule } from './utils/utils.module';
+import { LoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
@@ -29,29 +30,16 @@ import { UtilsModule } from './utils/utils.module';
         ELASTICSEARCH_PASSWORD: Joi.string().required(),
       }),
     }),
-    WinstonModule.forRootAsync({
-      useFactory: (configService: ConfigService) => ({
-        level: 'info',
-        defaultMeta: { service: 'gateway' },
-        transports: [
-          new winston.transports.Console({
-            format: winston.format.cli(),
-          }),
-          new ElasticsearchTransport({
-            level: 'debug',
-            transformer: (logData: LogData) =>
-              ElasticsearchTransformer(logData),
-            clientOpts: {
-              node: configService.get('ELASTICSEARCH_URL'),
-              auth: {
-                username: configService.get('ELASTICSEARCH_USERNAME'),
-                password: configService.get('ELASTICSEARCH_PASSWORD'),
-              },
-            },
-          }),
-        ],
-      }),
-      inject: [ConfigService],
+    LoggerModule.forRoot({
+      pinoHttp: {
+        name: 'gateway',
+        transport: {
+          target: 'pino-pretty',
+          options: {
+            singleLine: true,
+          },
+        },
+      },
     }),
     ConverterModule,
     UtilsModule,
