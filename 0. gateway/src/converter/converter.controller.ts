@@ -2,15 +2,12 @@ import {
   Controller,
   Get,
   Post,
-  Inject,
   UploadedFile,
   UseInterceptors,
   ParseFilePipe,
   MaxFileSizeValidator,
 } from '@nestjs/common';
 import { ConverterService } from './converter.service';
-import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { Logger } from 'winston';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AlloweMimesValidator } from './validators/allowed-mimes.validator';
 import { OFFICE_MIMES } from './constants/office-mimes';
