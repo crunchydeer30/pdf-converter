@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ConverterModule } from './converter/converter.module';
 import * as Joi from 'joi';
-import { WinstonModule } from 'nest-winston';
+import { WinstonModule, utilities } from 'nest-winston';
 import * as winston from 'winston';
 import {
   ElasticsearchTransport,
@@ -12,7 +12,6 @@ import {
   LogData,
 } from 'winston-elasticsearch';
 import { UtilsModule } from './utils/utils.module';
-import { LoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
@@ -30,16 +29,37 @@ import { LoggerModule } from 'nestjs-pino';
         ELASTICSEARCH_PASSWORD: Joi.string().required(),
       }),
     }),
-    LoggerModule.forRoot({
-      pinoHttp: {
-        name: 'gateway',
-        transport: {
-          target: 'pino-pretty',
-          options: {
-            singleLine: true,
-          },
-        },
-      },
+    WinstonModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        level: 'info',
+        defaultMeta: { service: 'gateway' },
+        transports: [
+          new winston.transports.Console({
+            format: winston.format.combine(
+              utilities.format.nestLike('gateway', {
+                colors: true,
+                prettyPrint: true,
+                processId: true,
+                appName: true,
+              }),
+            ),
+          }),
+          new winston.transports.Http({}),
+          new ElasticsearchTransport({
+            level: 'debug',
+            transformer: (logData: LogData) =>
+              ElasticsearchTransformer(logData),
+            clientOpts: {
+              node: configService.get('ELASTICSEARCH_URL'),
+              auth: {
+                username: configService.get('ELASTICSEARCH_USERNAME'),
+                password: configService.get('ELASTICSEARCH_PASSWORD'),
+              },
+            },
+          }),
+        ],
+      }),
+      inject: [ConfigService],
     }),
     ConverterModule,
     UtilsModule,
