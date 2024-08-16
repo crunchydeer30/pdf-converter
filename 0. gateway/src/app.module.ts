@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ConverterModule } from './converter/converter.module';
 import * as Joi from 'joi';
-import { WinstonModule } from 'nest-winston';
+import { WinstonModule, utilities } from 'nest-winston';
 import * as winston from 'winston';
 import {
   ElasticsearchTransport,
@@ -35,8 +35,16 @@ import { UtilsModule } from './utils/utils.module';
         defaultMeta: { service: 'gateway' },
         transports: [
           new winston.transports.Console({
-            format: winston.format.cli(),
+            format: winston.format.combine(
+              utilities.format.nestLike('gateway', {
+                colors: true,
+                prettyPrint: true,
+                processId: true,
+                appName: true,
+              }),
+            ),
           }),
+          new winston.transports.Http({}),
           new ElasticsearchTransport({
             level: 'debug',
             transformer: (logData: LogData) =>

@@ -17,10 +17,7 @@ import { OFFICE_MIMES } from './constants/office-mimes';
 
 @Controller('converter')
 export class ConverterController {
-  constructor(
-    private readonly converterService: ConverterService,
-    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
-  ) {}
+  constructor(private readonly converterService: ConverterService) {}
 
   @Get('ping')
   async pingConverterMicroservice() {
