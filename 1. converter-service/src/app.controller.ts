@@ -25,6 +25,14 @@ export class AppController {
     await this.appService.pingWorker();
   }
 
+  @MessagePattern('office_to_pdf')
+  async pdfToOffice(@Payload() file: Express.Multer.File) {
+    try {
+      await this.appService.officeToPdf(file);
+      return { message: 'File uploaded' };
+    } catch (e) {}
+  }
+
   @EventPattern('ping_from_worker')
   async pingFromWorker(
     @Payload() message: { message: string },
