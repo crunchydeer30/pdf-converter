@@ -14,6 +14,7 @@ import {
   LogData,
 } from 'winston-elasticsearch';
 import { S3Module } from 'nestjs-s3';
+import { UtilsModule } from './utils/utils.module';
 
 @Module({
   imports: [
@@ -91,6 +92,7 @@ import { S3Module } from 'nestjs-s3';
       }),
       inject: [ConfigService],
     }),
+    UtilsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
