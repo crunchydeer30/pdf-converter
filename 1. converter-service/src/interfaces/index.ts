@@ -1,8 +1,13 @@
-export interface FileInfo {
-  id: string;
-  originalname: string;
-  mimetype: string;
-  size: number;
-  extension: string;
-  name: string;
+export enum JobStatus {
+  PENDING = 'pending',
+  PROCESSING = 'processing',
+  COMPLETED = 'completed',
+  FAILED = 'failed',
+}
+
+export interface FileMetadata {
+  file_id: string;
+  file_name: string;
+  file_size: number;
+  file_type: string;
 }
