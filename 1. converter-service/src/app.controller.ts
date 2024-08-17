@@ -23,8 +23,8 @@ export class AppController {
     return await this.appService.officeToPdf(file);
   }
 
-  @EventPattern('job_accepted')
-  async jobAccepted(@Payload() fileId: string) {
-    await this.appService.jobAccepted(fileId);
+  @EventPattern('job_acknowledged')
+  async jobAcknowledged(@Payload() fileId: string) {
+    await this.appService.jobAcknowledged(fileId);
   }
 }
