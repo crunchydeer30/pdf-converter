@@ -7,6 +7,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { RmqUrl } from '@nestjs/microservices/external/rmq-url.interface';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
+import { RedisModule } from '@nestjs-modules/ioredis';
 import {
   ElasticsearchTransport,
   ElasticsearchTransformer,
@@ -30,6 +31,7 @@ import { S3Module } from 'nestjs-s3';
         S3_ENDPOINT: Joi.string().required(),
         S3_REGION: Joi.string().required(),
         S3_BUCKET: Joi.string().required(),
+        REDIS_URL: Joi.string().required(),
       }),
     }),
     ClientsModule.registerAsync([
@@ -79,6 +81,13 @@ import { S3Module } from 'nestjs-s3';
           endpoint: configService.get('S3_ENDPOINT'),
           region: configService.get('S3_REGION'),
         },
+      }),
+      inject: [ConfigService],
+    }),
+    RedisModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        type: 'single',
+        url: configService.get('REDIS_URL'),
       }),
       inject: [ConfigService],
     }),
