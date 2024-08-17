@@ -25,6 +25,6 @@ export class AppController {
 
   @EventPattern('job_accepted')
   async jobAccepted(@Payload() fileId: string) {
-    await this.appService.createJob(fileId);
+    await this.appService.jobAccepted(fileId);
   }
 }
