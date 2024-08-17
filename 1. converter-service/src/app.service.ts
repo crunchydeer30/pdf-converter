@@ -54,8 +54,12 @@ export class AppService {
 
   async createJob(meta: FileMetadata) {
     try {
-      await this.redis.set(`jobs_status:${meta.file_id}`, JobStatus.PENDING);
-      await this.redis.hset('file_names', meta.file_id, meta.file_name);
+      await this.redis.hset(`jobs:${meta.file_id}`, {
+        id: meta.file_id,
+        name: meta.file_name,
+        status: JobStatus.PENDING,
+      });
+      // await this.redis.hset('file_names', meta.file_id, meta.file_name);
       this.converterWorker.emit('pdf_to_office', meta.file_id);
       this.logger.info(`Job created: ${meta.file_id}`, meta);
     } catch (e) {
@@ -66,7 +70,7 @@ export class AppService {
 
   async jobAccepted(fileId: string) {
     try {
-      await this.redis.set(`jobs:${fileId}`, JobStatus.PROCESSING);
+      await this.redis.hset(`jobs:${fileId}`, 'status', JobStatus.PROCESSING);
       this.logger.info(`Job acknowledged: ${fileId}`);
     } catch (e) {
       this.logger.error('Error while acknowledging job', e);
