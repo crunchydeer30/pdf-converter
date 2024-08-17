@@ -9,6 +9,8 @@ import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { InjectS3, S3 } from 'nestjs-s3';
 import { Logger } from 'winston';
 import { v4 as uuid } from 'uuid';
+import { InjectRedis } from '@nestjs-modules/ioredis';
+import { Redis } from 'ioredis';
 
 @Injectable()
 export class AppService {
@@ -17,6 +19,7 @@ export class AppService {
     @InjectS3() private readonly s3: S3,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
     private readonly configService: ConfigService,
+    @InjectRedis() private readonly redis: Redis,
   ) {}
 
   async pingWorker() {
