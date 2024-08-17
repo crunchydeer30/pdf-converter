@@ -11,6 +11,7 @@ import { Logger } from 'winston';
 import { v4 as uuid } from 'uuid';
 import { InjectRedis } from '@nestjs-modules/ioredis';
 import { Redis } from 'ioredis';
+import { JobStatus } from './interfaces';
 
 @Injectable()
 export class AppService {
@@ -29,21 +30,38 @@ export class AppService {
   }
 
   async officeToPdf(file: Express.Multer.File) {
-    const id = uuid();
-    await this.uploadToS3(file, id);
+    const fileId = uuid();
+    await this.uploadToS3(file, fileId);
+    await this.createJob(fileId);
+    return { message: 'File uploaded' };
   }
 
-  async uploadToS3(file: Express.Multer.File, id: string) {
+  async uploadToS3(file: Express.Multer.File, fileId: string) {
     try {
       await this.s3.putObject({
         Bucket: this.configService.get('S3_BUCKET'),
-        Key: `input/${id}`,
+        Key: `input/${fileId}`,
         Body: Buffer.from(file.buffer),
       });
     } catch (e) {
-      throw new InternalServerErrorException(
-        'Failed to upload file to storage',
-      );
+      throw new InternalServerErrorException();
+    }
+  }
+
+  async createJob(fileId: string) {
+    try {
+      await this.redis.set(`jobs:${fileId}`, JobStatus.PENDING);
+      this.converterWorker.emit('pdf_to_office', fileId);
+    } catch (e) {
+      throw new InternalServerErrorException();
+    }
+  }
+
+  async jobAccepted(fileId: string) {
+    try {
+      await this.redis.set(`jobs:${fileId}`, JobStatus.PROCESSING);
+    } catch (e) {
+      throw new InternalServerErrorException();
     }
   }
 }

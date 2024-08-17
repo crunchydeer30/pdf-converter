@@ -1,1 +1,6 @@
-export type JobStatus = 'pending' | 'processing' | 'completed' | 'failed';
+export enum JobStatus {
+  PENDING = 'pending',
+  PROCESSING = 'processing',
+  COMPLETED = 'completed',
+  FAILED = 'failed',
+}
