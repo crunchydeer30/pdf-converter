@@ -18,6 +18,8 @@ jobs:
               - '1. converter-service/**'
             converter-worker:
               - '2. converter-worker/**'
+            cron-service:
+              - '3. cron-service/**'
 
       - name: Setup pnpm
         if: contains(steps.filter.outputs.*, 'true')
@@ -56,4 +58,15 @@ jobs:
       - name: CONVERTER-WORKER lint
         if: steps.filter.outputs.converter-worker == 'true'
         working-directory: "2. converter-worker"
+        run: pnpm lint
+
+      # Cron Service CI
+      - name: CRON-SERVICE dependencies
+        if: steps.filter.outputs.cron-service == 'true'
+        working-directory: "3. cron-service"
+        run: pnpm i
+
+      - name: CRON-SERVICE lint
+        if: steps.filter.outputs.cron-service == 'true'
+        working-directory: "3. cron-service"
         run: pnpm lint

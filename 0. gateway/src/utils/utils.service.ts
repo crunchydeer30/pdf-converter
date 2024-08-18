@@ -1,5 +1,6 @@
 import {
   HttpException,
+  Inject,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
@@ -7,9 +8,15 @@ import {
   MicroserviceException,
   microserviceExceptionSchema,
 } from './schemas/microservice-exceptions.schema';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import { Logger } from 'winston';
 
 @Injectable()
 export class UtilsService {
+  constructor(
+    @Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger,
+  ) {}
+
   async handleMicroserviceError(error: unknown) {
     const e = await this.parseMicroserviceException(error);
     throw new HttpException(e.response, e.status);
@@ -21,6 +28,7 @@ export class UtilsService {
     try {
       return await microserviceExceptionSchema.parseAsync(error);
     } catch {
+      this.logger.error(error);
       throw new InternalServerErrorException();
     }
   }

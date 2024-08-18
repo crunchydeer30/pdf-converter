@@ -1,13 +1,6 @@
 import { Controller, UseFilters } from '@nestjs/common';
 import { AppService } from './app.service';
-import {
-  Ctx,
-  EventPattern,
-  MessagePattern,
-  Payload,
-  RmqContext,
-} from '@nestjs/microservices';
-import { ack } from './utils';
+import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
 import { HttpExceptionFilter } from './filters/http-exceptions.filter';
 
 @UseFilters(HttpExceptionFilter)
@@ -25,12 +18,13 @@ export class AppController {
     await this.appService.pingWorker();
   }
 
-  @EventPattern('ping_from_worker')
-  async pingFromWorker(
-    @Payload() message: { message: string },
-    @Ctx() ctx: RmqContext,
-  ) {
-    ack(ctx);
-    console.log('Message from worker: ', message);
+  @MessagePattern('office_to_pdf')
+  async pdfToOffice(@Payload() file: Express.Multer.File) {
+    return await this.appService.officeToPdf(file);
+  }
+
+  @EventPattern('job_acknowledged')
+  async jobAcknowledged(@Payload() fileId: string) {
+    await this.appService.jobAcknowledged(fileId);
   }
 }

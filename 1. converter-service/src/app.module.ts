@@ -7,11 +7,14 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { RmqUrl } from '@nestjs/microservices/external/rmq-url.interface';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
+import { RedisModule } from '@nestjs-modules/ioredis';
 import {
   ElasticsearchTransport,
   ElasticsearchTransformer,
   LogData,
 } from 'winston-elasticsearch';
+import { S3Module } from 'nestjs-s3';
+import { UtilsModule } from './utils/utils.module';
 
 @Module({
   imports: [
@@ -24,6 +27,12 @@ import {
         ELASTICSEARCH_URL: Joi.string().required(),
         ELASTICSEARCH_USERNAME: Joi.string().required(),
         ELASTICSEARCH_PASSWORD: Joi.string().required(),
+        S3_ACCESS_KEY_ID: Joi.string().required(),
+        S3_SECRET_ACCESS_KEY: Joi.string().required(),
+        S3_ENDPOINT: Joi.string().required(),
+        S3_REGION: Joi.string().required(),
+        S3_BUCKET: Joi.string().required(),
+        REDIS_URL: Joi.string().required(),
       }),
     }),
     ClientsModule.registerAsync([
@@ -63,6 +72,27 @@ import {
       }),
       inject: [ConfigService],
     }),
+    S3Module.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        config: {
+          credentials: {
+            accessKeyId: configService.get('S3_ACCESS_KEY_ID'),
+            secretAccessKey: configService.get('S3_SECRET_ACCESS_KEY'),
+          },
+          endpoint: configService.get('S3_ENDPOINT'),
+          region: configService.get('S3_REGION'),
+        },
+      }),
+      inject: [ConfigService],
+    }),
+    RedisModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        type: 'single',
+        url: configService.get('REDIS_URL'),
+      }),
+      inject: [ConfigService],
+    }),
+    UtilsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
