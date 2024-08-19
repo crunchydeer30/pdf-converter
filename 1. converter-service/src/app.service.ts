@@ -60,7 +60,7 @@ export class AppService {
         status: JobStatus.PENDING,
       });
       await this.redis.zadd('jobs:timestamps', Date.now(), meta.file_id);
-      this.converterWorker.emit('pdf_to_office', meta.file_id);
+      this.converterWorker.emit('office_to_pdf', meta.file_id);
       this.logger.info(`Job created: ${meta.file_id}`, meta);
     } catch (e) {
       this.logger.error('Error while creating job', e);
