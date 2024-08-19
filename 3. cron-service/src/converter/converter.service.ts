@@ -17,7 +17,7 @@ export class ConverterService {
     private readonly configService: ConfigService,
   ) {}
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_30_MINUTES)
   async terminateOldJobs() {
     try {
       this.logger.info('Terminating old jobs...');
