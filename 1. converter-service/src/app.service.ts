@@ -12,6 +12,7 @@ import { InjectRedis } from '@nestjs-modules/ioredis';
 import { Redis } from 'ioredis';
 import { FileMetadata, JobStatus } from './interfaces';
 import { UtilsService } from './utils/utils.service';
+import { Job } from './interfaces';
 
 @Injectable()
 export class AppService {
@@ -68,13 +69,30 @@ export class AppService {
     }
   }
 
-  async jobAcknowledged(fileId: string) {
+  async jobAcknowledged(jobId: string) {
     try {
-      await this.redis.hset(`jobs:${fileId}`, 'status', JobStatus.PROCESSING);
-      this.logger.info(`Job acknowledged: ${fileId}`);
+      await this.redis.hset(`jobs:${jobId}`, 'status', JobStatus.PROCESSING);
+      this.logger.info(`Job acknowledged: ${jobId}`);
     } catch (e) {
       this.logger.error('Error while acknowledging job', e);
       throw new InternalServerErrorException();
+    }
+  }
+
+  async jobCompleted(job: Job) {
+    switch (job.status) {
+      case JobStatus.COMPLETED:
+        this.logger.info(`Job completed: ${job.id}`);
+        await this.redis.hset(`jobs:${job.id}`, 'status', JobStatus.COMPLETED);
+        break;
+      case JobStatus.FAILED:
+        this.logger.warn(`Job failed: ${job.id}`);
+        await this.redis.hset(`jobs:${job.id}`, 'status', JobStatus.FAILED);
+        break;
+      default:
+        this.logger.error('Invalid job status', job);
+        await this.redis.hset(`jobs:${job.id}`, 'status', JobStatus.FAILED);
+        break;
     }
   }
 }

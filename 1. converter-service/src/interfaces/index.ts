@@ -11,3 +11,8 @@ export interface FileMetadata {
   file_size: number;
   file_type: string;
 }
+
+export interface Job {
+  id: string;
+  status: JobStatus;
+}
