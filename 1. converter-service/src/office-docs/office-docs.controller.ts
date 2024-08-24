@@ -1,13 +1,23 @@
 import { Controller, UseFilters } from '@nestjs/common';
-import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
+import {
+  Ctx,
+  EventPattern,
+  MessagePattern,
+  Payload,
+  RmqContext,
+} from '@nestjs/microservices';
 import { HttpExceptionFilter } from 'src/filters/http-exceptions.filter';
 import { Job } from '../interfaces';
 import { OfficeDocsService } from './office-docs.service';
+import { UtilsService } from 'src/utils/utils.service';
 
 @UseFilters(HttpExceptionFilter)
 @Controller('office-docs')
 export class OfficeDocsController {
-  constructor(private readonly officeDocsService: OfficeDocsService) {}
+  constructor(
+    private readonly officeDocsService: OfficeDocsService,
+    private readonly utils: UtilsService,
+  ) {}
 
   @MessagePattern('ping_from_gateway')
   async pingFromGateway() {
@@ -20,12 +30,14 @@ export class OfficeDocsController {
   }
 
   @EventPattern('job_acknowledged')
-  async jobAcknowledged(@Payload() jobId: string) {
+  async jobAcknowledged(@Payload() jobId: string, @Ctx() context: RmqContext) {
+    this.utils.ack(context);
     await this.officeDocsService.jobAcknowledged(jobId);
   }
 
   @EventPattern('job_completed')
-  async jobCompleted(@Payload() job: Job) {
+  async jobCompleted(@Payload() job: Job, @Ctx() context: RmqContext) {
+    this.utils.ack(context);
     await this.officeDocsService.jobCompleted(job);
   }
 }
