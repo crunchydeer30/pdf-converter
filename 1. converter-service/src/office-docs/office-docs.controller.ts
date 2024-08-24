@@ -14,11 +14,6 @@ export class OfficeDocsController {
     return { converter_service: 'PONG' };
   }
 
-  @MessagePattern('ping_worker')
-  async pingWorker() {
-    await this.officeDocsService.pingWorker();
-  }
-
   @MessagePattern('office_to_pdf')
   async pdfToOffice(@Payload() file: Express.Multer.File) {
     return await this.officeDocsService.officeToPdf(file);

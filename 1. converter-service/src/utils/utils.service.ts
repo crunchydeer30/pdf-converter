@@ -6,7 +6,7 @@ import { FileMetadata } from 'src/interfaces';
 export class UtilsService {
   collectFileMetadata(file: Express.Multer.File): FileMetadata {
     return {
-      fileName: path.basename(file.path),
+      fileName: path.basename(file.originalname),
       fileSize: file.size,
       fileType: file.mimetype,
     };

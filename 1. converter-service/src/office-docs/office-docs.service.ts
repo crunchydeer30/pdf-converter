@@ -26,17 +26,14 @@ export class OfficeDocsService {
     private readonly utils: UtilsService,
   ) {}
 
-  async pingWorker() {
-    this.converterWorker.emit('ping_from_service', {
-      message: 'PING',
-    });
-  }
-
   async officeToPdf(file: Express.Multer.File) {
     const jobId = uuid();
-    const meta = this.utils.collectFileMetadata(file);
-    this.logger.info(`File received: ${meta.fileName}`, meta);
-    await this.uploadToS3(jobId, file, meta);
+    const fileMeta = this.utils.collectFileMetadata(file);
+    this.logger.info(`File received: ${fileMeta.fileName}`, {
+      ...fileMeta,
+      jobId,
+    });
+    await this.uploadToS3(jobId, file, fileMeta);
     await this.createJob(jobId);
     return { message: 'File uploaded' };
   }
@@ -52,9 +49,12 @@ export class OfficeDocsService {
         Key: `input/${jobId}/${fileMeta.fileName}`,
         Body: Buffer.from(file.buffer),
       });
-      this.logger.info(`File uploaded to S3: ${fileMeta.fileName}`, fileMeta);
+      this.logger.info(
+        `File uploaded to S3: input/${jobId}/${fileMeta.fileName}`,
+        { ...fileMeta, jobId },
+      );
     } catch (e) {
-      this.logger.error('Error while uploading file to S3', e);
+      this.logger.error('Error while uploading file to S3', { ...e, jobId });
       throw new InternalServerErrorException();
     }
   }
@@ -67,9 +67,9 @@ export class OfficeDocsService {
       });
       await this.redis.zadd('jobs:timestamps', Date.now(), jobId);
       this.converterWorker.emit('office_to_pdf', jobId);
-      this.logger.info(`Job created: ${jobId}`);
+      this.logger.info(`Job created: ${jobId}`, jobId);
     } catch (e) {
-      this.logger.error('Error while creating job', e);
+      this.logger.error('Error while creating job', { ...e, jobId });
       throw new InternalServerErrorException();
     }
   }
@@ -77,9 +77,9 @@ export class OfficeDocsService {
   async jobAcknowledged(jobId: string) {
     try {
       await this.redis.hset(`jobs:${jobId}`, 'status', JobStatus.PROCESSING);
-      this.logger.info(`Job acknowledged: ${jobId}`);
+      this.logger.info(`Job acknowledged: ${jobId}`, { jobId });
     } catch (e) {
-      this.logger.error('Error while acknowledging job', e);
+      this.logger.error('Error while acknowledging job', { ...e, jobId });
       throw new InternalServerErrorException();
     }
   }
