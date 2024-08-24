@@ -87,15 +87,15 @@ export class OfficeDocsService {
   async jobCompleted(job: Job) {
     switch (job.status) {
       case JobStatus.COMPLETED:
-        this.logger.info(`Job completed: ${job.id}`);
+        this.logger.info(`Job completed: ${job.id}`, { jobId: job.id });
         await this.redis.hset(`jobs:${job.id}`, 'status', JobStatus.COMPLETED);
         break;
       case JobStatus.FAILED:
-        this.logger.warn(`Job failed: ${job.id}`);
+        this.logger.warn(`Job failed: ${job.id}`, { jobId: job.id });
         await this.redis.hset(`jobs:${job.id}`, 'status', JobStatus.FAILED);
         break;
       default:
-        this.logger.error('Invalid job status', job);
+        this.logger.error('Invalid job status', { jobId: job.id });
         await this.redis.hset(`jobs:${job.id}`, 'status', JobStatus.FAILED);
         break;
     }
