@@ -10,9 +10,9 @@ import { InjectS3, S3 } from 'nestjs-s3';
 import { Logger } from 'winston';
 import { InjectRedis } from '@nestjs-modules/ioredis';
 import { Redis } from 'ioredis';
-import { FileMetadata, JobStatus } from './interfaces';
+import { FileMetadata, JobStatus } from '../interfaces';
 import { UtilsService } from 'src/utils/utils.service';
-import { Job } from './interfaces';
+import { Job } from '../interfaces';
 import { v4 as uuid } from 'uuid';
 
 @Injectable()

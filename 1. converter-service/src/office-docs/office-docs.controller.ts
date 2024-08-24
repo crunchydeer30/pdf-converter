@@ -1,7 +1,7 @@
 import { Controller, UseFilters } from '@nestjs/common';
 import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
 import { HttpExceptionFilter } from 'src/filters/http-exceptions.filter';
-import { Job } from './interfaces';
+import { Job } from '../interfaces';
 import { OfficeDocsService } from './office-docs.service';
 
 @UseFilters(HttpExceptionFilter)
