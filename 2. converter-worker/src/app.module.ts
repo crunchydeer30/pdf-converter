@@ -10,6 +10,7 @@ import {
 } from 'winston-elasticsearch';
 import { OfficeDocsModule } from './office-docs/office-docs.module';
 import { S3Module } from 'nestjs-s3';
+import { UtilsModule } from './utils/utils.module';
 
 @Module({
   imports: [
@@ -67,6 +68,7 @@ import { S3Module } from 'nestjs-s3';
       }),
       inject: [ConfigService],
     }),
+    UtilsModule,
   ],
 })
 export class AppModule {}
