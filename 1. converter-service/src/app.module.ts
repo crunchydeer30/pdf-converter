@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import { ClientsModule, Transport } from '@nestjs/microservices';
@@ -15,6 +13,7 @@ import {
 } from 'winston-elasticsearch';
 import { S3Module } from 'nestjs-s3';
 import { UtilsModule } from './utils/utils.module';
+import { OfficeDocsModule } from './office-docs/office-docs.module';
 
 @Module({
   imports: [
@@ -93,8 +92,7 @@ import { UtilsModule } from './utils/utils.module';
       inject: [ConfigService],
     }),
     UtilsModule,
+    OfficeDocsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
