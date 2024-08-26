@@ -17,7 +17,7 @@ export class ConverterService {
     private readonly configService: ConfigService,
   ) {}
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_30_MINUTES)
   async terminateOldJobs() {
     try {
       this.logger.info('Terminating old jobs...');
@@ -45,8 +45,7 @@ export class ConverterService {
       const ids = await this.redis.zrangebyscore(
         'jobs:timestamps',
         '-inf',
-        // Date.now() - 30 * 60 * 1000,
-        Date.now(),
+        Date.now() - 30 * 60 * 1000,
       );
 
       const pipeline = this.redis.pipeline();
@@ -78,8 +77,8 @@ export class ConverterService {
 
   async deleteJob(job: Job) {
     try {
-      await this.deleteS3Objects(`input/${job.id}/*`);
-      await this.deleteS3Objects(`output/${job.id}/*`);
+      await this.deleteS3Objects(`input/${job.id}`);
+      await this.deleteS3Objects(`output/${job.id}`);
       await this.deleteDbEntry(job);
       this.logger.info(`Deleted job: ${job.id}`, job);
     } catch (e) {
@@ -89,12 +88,23 @@ export class ConverterService {
   }
 
   async deleteS3Objects(path: string) {
-    await this.s3.deleteObjects({
+    const objects = await this.s3.listObjectsV2({
       Bucket: this.configService.get('CONVERTER_S3_BUCKET'),
-      Delete: {
-        Objects: [{ Key: path }],
-      },
+      Prefix: path,
     });
+
+    const objectsToDelete = objects.Contents.map((object) => ({
+      Key: object.Key,
+    }));
+
+    if (objectsToDelete.length > 0) {
+      await this.s3.deleteObjects({
+        Bucket: this.configService.get('CONVERTER_S3_BUCKET'),
+        Delete: {
+          Objects: objectsToDelete,
+        },
+      });
+    }
   }
 
   async deleteDbEntry(job: Job) {
