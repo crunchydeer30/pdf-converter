@@ -6,6 +6,7 @@ import {
   UseInterceptors,
   ParseFilePipe,
   MaxFileSizeValidator,
+  Param,
 } from '@nestjs/common';
 import { ConverterService } from './converter.service';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -21,9 +22,9 @@ export class ConverterController {
     return this.converterService.pingConverterService();
   }
 
-  @Get('ping-worker')
-  async pingWorker() {
-    await this.converterService.pingWorker();
+  @Get('files/:jobId')
+  async download(@Param() { jobId }: { jobId: string }) {
+    return this.converterService.download(jobId);
   }
 
   @Post('office-to-pdf')

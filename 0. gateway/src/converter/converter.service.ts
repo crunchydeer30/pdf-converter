@@ -16,8 +16,10 @@ export class ConverterService {
       .pipe(catchError(async (e) => this.utils.handleMicroserviceError(e)));
   }
 
-  async pingWorker() {
-    return this.converterService.emit('ping_worker', '');
+  async download(jobId: string) {
+    return this.converterService
+      .send('download', jobId)
+      .pipe(catchError(async (e) => this.utils.handleMicroserviceError(e)));
   }
 
   async officeToPdf(file: Express.Multer.File) {
