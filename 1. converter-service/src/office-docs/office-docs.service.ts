@@ -1,7 +1,9 @@
 import {
+  ConflictException,
   Inject,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientProxy } from '@nestjs/microservices';
@@ -14,6 +16,8 @@ import { FileMetadata, JobStatus } from '../interfaces';
 import { UtilsService } from 'src/utils/utils.service';
 import { Job } from '../interfaces';
 import { v4 as uuid } from 'uuid';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { GetObjectCommand } from '@aws-sdk/client-s3';
 
 @Injectable()
 export class OfficeDocsService {
@@ -35,7 +39,32 @@ export class OfficeDocsService {
     });
     await this.uploadToS3(jobId, file, fileMeta);
     await this.createJob(jobId);
-    return { message: 'File uploaded' };
+    return { message: 'File uploaded', jobId };
+  }
+
+  async download(jobId: string) {
+    const jobStatus = await this.redis.hget(`jobs:${jobId}`, 'status');
+    if (!jobStatus) throw new NotFoundException('File not found');
+
+    if (jobStatus === JobStatus.PENDING || jobStatus === JobStatus.PROCESSING) {
+      throw new ConflictException('File is being processed');
+    }
+
+    const data = await this.s3.listObjectsV2({
+      Bucket: this.configService.get('S3_BUCKET'),
+      Prefix: `output/${jobId}`,
+    });
+    if (!data.Contents.length) {
+      throw new NotFoundException('File not found');
+    }
+
+    const command = new GetObjectCommand({
+      Bucket: this.configService.get('S3_BUCKET'),
+      Key: data.Contents[0].Key,
+    });
+
+    const url = await getSignedUrl(this.s3, command, { expiresIn: 3600 });
+    return { url };
   }
 
   async uploadToS3(

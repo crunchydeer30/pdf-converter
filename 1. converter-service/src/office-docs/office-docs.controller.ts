@@ -29,6 +29,12 @@ export class OfficeDocsController {
     return await this.officeDocsService.officeToPdf(file);
   }
 
+  @MessagePattern('download')
+  async download(@Payload() jobId: string) {
+    console.log(jobId);
+    return await this.officeDocsService.download(jobId);
+  }
+
   @EventPattern('job_acknowledged')
   async jobAcknowledged(@Payload() jobId: string, @Ctx() context: RmqContext) {
     this.utils.ack(context);
