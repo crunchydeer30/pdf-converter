@@ -11,8 +11,8 @@ export class OfficeDocsController {
   ) {}
 
   @EventPattern('office_to_pdf')
-  async officeToPdf(@Payload() fileId: string, @Ctx() context: RmqContext) {
+  async officeToPdf(@Payload() jobId: string, @Ctx() context: RmqContext) {
     this.utils.ack(context);
-    await this.officeDocsService.officeToPdf(fileId);
+    await this.officeDocsService.officeToPdf(jobId);
   }
 }

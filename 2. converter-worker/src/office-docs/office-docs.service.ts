@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { promisify } from 'util';
 import * as libre from 'libreoffice-convert';
 import { JobStatus } from './interfaces';
+import { UtilsService } from 'src/utils/utils.service';
 
 @Injectable()
 export class OfficeDocsService {
@@ -14,50 +15,63 @@ export class OfficeDocsService {
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
     @InjectS3() private readonly s3: S3,
     @Inject('CONVERTER_SERVICE') private readonly converterService: ClientProxy,
+    private readonly utils: UtilsService,
     private readonly configService: ConfigService,
   ) {}
 
-  async officeToPdf(fileId: string) {
+  async officeToPdf(jobId: string) {
     try {
-      this.logger.info(`Received conversion request ${fileId}`, {
-        file_id: fileId,
-        file_type: 'office',
+      this.logger.info(`Received conversion request ${jobId}`, {
+        jobId,
       });
-      this.converterService.emit('job_acknowledged', fileId);
+      this.converterService.emit('job_acknowledged', jobId);
 
-      const file = await this.downloadFile(fileId);
-      const output = await this.convertToPdf(file);
-      await this.uploadFile(output, fileId);
-      this.logger.info(`File converted ${fileId}`, {
-        file_id: fileId,
+      const { buffer, fileName } = await this.downloadFile(jobId);
+      const output = await this.convertToPdf(buffer);
+
+      await this.uploadFile(output, jobId, fileName);
+      this.logger.info(`File converted ${jobId}`, {
+        file_id: jobId,
         file_type: 'office',
       });
       this.converterService.emit('job_completed', {
-        id: fileId,
+        id: jobId,
         status: JobStatus.COMPLETED,
       });
     } catch (e) {
-      this.logger.error(`Error while converting file ${fileId}`, e);
+      this.logger.error(`Error while converting file ${jobId}`, e);
       this.converterService.emit('job_completed', {
-        id: fileId,
+        id: jobId,
         status: JobStatus.FAILED,
       });
     }
   }
 
-  async downloadFile(fileId: string) {
+  async downloadFile(jobId: string) {
+    const data = await this.s3.listObjectsV2({
+      Bucket: this.configService.get('S3_BUCKET'),
+      Prefix: `input/${jobId}`,
+    });
+
+    if (data.Contents.length === 0) {
+      throw new Error('File not found');
+    }
+
+    const objectInfo = data.Contents[0];
+    const fileName = this.utils.getFileName(objectInfo.Key);
+
     const file = await this.s3.getObject({
       Bucket: this.configService.get('S3_BUCKET'),
-      Key: `input/${fileId}`,
+      Key: objectInfo.Key,
     });
     const buffer = Buffer.from(await file.Body.transformToByteArray());
-    return buffer;
+    return { buffer, fileName };
   }
 
-  async uploadFile(file: Buffer, fileId: string) {
+  async uploadFile(file: Buffer, jobId: string, fileName: string) {
     await this.s3.putObject({
       Bucket: this.configService.get('S3_BUCKET'),
-      Key: `output/${fileId}.pdf`,
+      Key: `output/${jobId}/${fileName}.pdf`,
       Body: file,
     });
   }
