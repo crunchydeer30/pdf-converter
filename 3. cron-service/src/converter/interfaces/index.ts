@@ -7,6 +7,5 @@ export enum JobStatus {
 
 export interface Job {
   id: string;
-  name: string;
   status: JobStatus;
 }
