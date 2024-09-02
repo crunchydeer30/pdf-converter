@@ -37,7 +37,7 @@ export class OfficeDocsService {
     this.redisSub = this.redis.duplicate();
     this.redisSub.subscribe(this.JOB_UPDATES_CHANNEL);
     this.redisSub.on('message', (channel, message) => {
-      this.jobUpdatesSubscription.next(message);
+      this.jobUpdatesSubscription.next(JSON.parse(message));
     });
   }
 
