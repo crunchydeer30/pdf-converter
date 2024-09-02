@@ -1,8 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { catchError } from 'rxjs';
+import { catchError, filter, map } from 'rxjs';
 import { UtilsService } from 'src/utils/utils.service';
-import { map } from 'rxjs';
 
 @Injectable()
 export class ConverterService {
@@ -25,6 +24,12 @@ export class ConverterService {
 
   async getJobUpdates(jobId: string) {
     return this.converterService.send('job_progress', jobId).pipe(
+      filter((data) => {
+        if (data && 'jobId' in data) {
+          return data.jobId === jobId;
+        }
+        return false;
+      }),
       map((data) => ({ data })),
       catchError(async (e) => this.utils.handleMicroserviceError(e)),
     );
