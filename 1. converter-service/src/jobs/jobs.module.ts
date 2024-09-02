@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { OfficeDocsController } from './office-docs.controller';
-import { OfficeDocsService } from './office-docs.service';
+import { JobsService } from './jobs.service';
+import { ClientsModule } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
-import { ClientsModule, Transport } from '@nestjs/microservices';
+import { Transport } from '@nestjs/microservices';
 import { RmqUrl } from '@nestjs/microservices/external/rmq-url.interface';
-import { JobsModule } from 'src/jobs/jobs.module';
+import { JobsController } from './jobs.controller';
 
 @Module({
   imports: [
@@ -21,9 +21,9 @@ import { JobsModule } from 'src/jobs/jobs.module';
         inject: [ConfigService],
       },
     ]),
-    JobsModule,
   ],
-  controllers: [OfficeDocsController],
-  providers: [OfficeDocsService],
+  providers: [JobsService],
+  exports: [JobsService],
+  controllers: [JobsController],
 })
-export class OfficeDocsModule {}
+export class JobsModule {}
