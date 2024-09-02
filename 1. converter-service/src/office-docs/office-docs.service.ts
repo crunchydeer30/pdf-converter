@@ -53,6 +53,12 @@ export class OfficeDocsService {
     return { message: 'File uploaded', jobId };
   }
 
+  async getJobStatus(jobId: string) {
+    const jobStatus = await this.redis.hget(`jobs:${jobId}`, 'status');
+    if (!jobStatus) throw new NotFoundException('File not found');
+    return { jobId, status: jobStatus };
+  }
+
   async sendJobStatusUpdates(jobId: string) {
     const jobStatus = await this.redis.hget(`jobs:${jobId}`, 'status');
     if (!jobStatus) throw new NotFoundException('File not found');
@@ -61,8 +67,6 @@ export class OfficeDocsService {
       return { jobId, status: jobStatus };
     }
 
-    const subscription = this.jobUpdatesSubscription;
-    console.log('Address:', subscription.toString());
     return this.jobUpdatesSubscription;
   }
 

@@ -24,7 +24,12 @@ export class OfficeDocsController {
     return { converter_service: 'PONG' };
   }
 
-  @MessagePattern('job_updates')
+  @MessagePattern('job_status')
+  async getJobStatus(@Payload() jobId: string) {
+    return await this.officeDocsService.getJobStatus(jobId);
+  }
+
+  @MessagePattern('job_progress')
   async sendJobStatusUpdates(@Payload() jobId: string) {
     return await this.officeDocsService.sendJobStatusUpdates(jobId);
   }
