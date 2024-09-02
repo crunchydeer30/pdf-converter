@@ -30,7 +30,6 @@ export class JobsController {
 
   @MessagePattern('jobs:download')
   async download(@Payload() jobId: string) {
-    console.log(jobId);
     return await this.jobsService.download(jobId);
   }
 

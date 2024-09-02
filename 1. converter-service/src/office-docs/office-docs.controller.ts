@@ -1,9 +1,7 @@
-import { Controller, UseFilters } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { HttpExceptionFilter } from 'src/filters/http-exceptions.filter';
 import { OfficeDocsService } from './office-docs.service';
 
-@UseFilters(HttpExceptionFilter)
 @Controller('office-docs')
 export class OfficeDocsController {
   constructor(private readonly officeDocsService: OfficeDocsService) {}
@@ -13,7 +11,7 @@ export class OfficeDocsController {
     return { converter_service: 'PONG' };
   }
 
-  @MessagePattern('office_to_pdf')
+  @MessagePattern('office:to_pdf')
   async pdfToOffice(@Payload() file: Express.Multer.File) {
     return await this.officeDocsService.officeToPdf(file);
   }
