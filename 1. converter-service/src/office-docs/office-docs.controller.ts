@@ -24,6 +24,11 @@ export class OfficeDocsController {
     return { converter_service: 'PONG' };
   }
 
+  @MessagePattern('job_updates')
+  async sendJobStatusUpdates(@Payload() jobId: string) {
+    return await this.officeDocsService.sendJobStatusUpdates(jobId);
+  }
+
   @MessagePattern('office_to_pdf')
   async pdfToOffice(@Payload() file: Express.Multer.File) {
     return await this.officeDocsService.officeToPdf(file);
