@@ -18,11 +18,6 @@ import { OFFICE_MIMES } from './constants/office-mimes';
 export class ConverterController {
   constructor(private readonly converterService: ConverterService) {}
 
-  @Get('ping')
-  async pingConverterMicroservice() {
-    return this.converterService.pingConverterService();
-  }
-
   @Get('files/:jobId/download')
   async download(@Param() { jobId }: { jobId: string }) {
     return this.converterService.download(jobId);
