@@ -12,6 +12,7 @@ import {
 import { S3Module } from 'nestjs-s3';
 import { UtilsModule } from './utils/utils.module';
 import { OfficeDocsModule } from './office-docs/office-docs.module';
+import { JobsModule } from './jobs/jobs.module';
 
 @Module({
   imports: [
@@ -78,6 +79,7 @@ import { OfficeDocsModule } from './office-docs/office-docs.module';
     }),
     UtilsModule,
     OfficeDocsModule,
+    JobsModule,
   ],
 })
 export class AppModule {}

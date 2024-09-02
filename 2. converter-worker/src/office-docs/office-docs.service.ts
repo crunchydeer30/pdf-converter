@@ -24,7 +24,7 @@ export class OfficeDocsService {
       this.logger.info(`Received conversion request ${jobId}`, {
         jobId,
       });
-      this.converterService.emit('job_acknowledged', jobId);
+      this.converterService.emit('jobs:acknowledge', jobId);
 
       const { buffer, fileName } = await this.downloadFile(jobId);
       const output = await this.convertToPdf(buffer);
@@ -34,13 +34,13 @@ export class OfficeDocsService {
         file_id: jobId,
         file_type: 'office',
       });
-      this.converterService.emit('job_completed', {
+      this.converterService.emit('jobs:complete', {
         id: jobId,
         status: JobStatus.COMPLETED,
       });
     } catch (e) {
       this.logger.error(`Error while converting file ${jobId}`, e);
-      this.converterService.emit('job_completed', {
+      this.converterService.emit('jobs:complete', {
         id: jobId,
         status: JobStatus.FAILED,
       });

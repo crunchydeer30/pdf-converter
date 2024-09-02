@@ -9,21 +9,14 @@ export class ConverterService {
     @Inject('CONVERTER_SERVICE') private readonly converterService: ClientProxy,
     private readonly utils: UtilsService,
   ) {}
-
-  async pingConverterService() {
-    return this.converterService
-      .send('ping_from_gateway', 'ping')
-      .pipe(catchError(async (e) => this.utils.handleMicroserviceError(e)));
-  }
-
   async getJobStatus(jobId: string) {
     return this.converterService
-      .send('job_status', jobId)
+      .send('jobs:status', jobId)
       .pipe(catchError(async (e) => this.utils.handleMicroserviceError(e)));
   }
 
   async getJobUpdates(jobId: string) {
-    return this.converterService.send('job_progress', jobId).pipe(
+    return this.converterService.send('jobs:progress', jobId).pipe(
       filter((data) => {
         if (data && 'jobId' in data) {
           return data.jobId === jobId;
@@ -37,13 +30,13 @@ export class ConverterService {
 
   async download(jobId: string) {
     return this.converterService
-      .send('download', jobId)
+      .send('jobs:download', jobId)
       .pipe(catchError(async (e) => this.utils.handleMicroserviceError(e)));
   }
 
   async officeToPdf(file: Express.Multer.File) {
     return this.converterService
-      .send('office_to_pdf', file)
+      .send('office:to_pdf', file)
       .pipe(catchError(async (e) => this.utils.handleMicroserviceError(e)));
   }
 }
