@@ -1,10 +1,6 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
-import { ClientsModule, Transport } from '@nestjs/microservices';
-import { RmqUrl } from '@nestjs/microservices/external/rmq-url.interface';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import {
@@ -12,6 +8,9 @@ import {
   ElasticsearchTransformer,
   LogData,
 } from 'winston-elasticsearch';
+import { OfficeDocsModule } from './office-docs/office-docs.module';
+import { S3Module } from 'nestjs-s3';
+import { UtilsModule } from './utils/utils.module';
 
 @Module({
   imports: [
@@ -24,21 +23,13 @@ import {
         ELASTICSEARCH_URL: Joi.string().required(),
         ELASTICSEARCH_USERNAME: Joi.string().required(),
         ELASTICSEARCH_PASSWORD: Joi.string().required(),
+        S3_ACCESS_KEY_ID: Joi.string().required(),
+        S3_SECRET_ACCESS_KEY: Joi.string().required(),
+        S3_BUCKET: Joi.string().required(),
+        S3_ENDPOINT: Joi.string().required(),
+        S3_REGION: Joi.string().required(),
       }),
     }),
-    ClientsModule.registerAsync([
-      {
-        name: 'CONVERTER_SERVICE',
-        useFactory: async (configService: ConfigService) => ({
-          transport: Transport.RMQ,
-          options: {
-            urls: [configService.get<RmqUrl>('RMQ_URL')],
-            queue: configService.get('RMQ_CONVERTER_RESPONSE_QUEUE'),
-          },
-        }),
-        inject: [ConfigService],
-      },
-    ]),
     WinstonModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         level: 'info',
@@ -63,8 +54,21 @@ import {
       }),
       inject: [ConfigService],
     }),
+    OfficeDocsModule,
+    S3Module.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        config: {
+          credentials: {
+            accessKeyId: configService.get('S3_ACCESS_KEY_ID'),
+            secretAccessKey: configService.get('S3_SECRET_ACCESS_KEY'),
+          },
+          endpoint: configService.get('S3_ENDPOINT'),
+          region: configService.get('S3_REGION'),
+        },
+      }),
+      inject: [ConfigService],
+    }),
+    UtilsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

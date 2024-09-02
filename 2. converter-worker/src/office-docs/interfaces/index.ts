@@ -4,8 +4,3 @@ export enum JobStatus {
   COMPLETED = 'completed',
   FAILED = 'failed',
 }
-
-export interface Job {
-  id: string;
-  status: JobStatus;
-}

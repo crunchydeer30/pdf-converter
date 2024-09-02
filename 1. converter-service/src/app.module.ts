@@ -1,10 +1,6 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
-import { ClientsModule, Transport } from '@nestjs/microservices';
-import { RmqUrl } from '@nestjs/microservices/external/rmq-url.interface';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { RedisModule } from '@nestjs-modules/ioredis';
@@ -15,6 +11,7 @@ import {
 } from 'winston-elasticsearch';
 import { S3Module } from 'nestjs-s3';
 import { UtilsModule } from './utils/utils.module';
+import { OfficeDocsModule } from './office-docs/office-docs.module';
 
 @Module({
   imports: [
@@ -35,19 +32,6 @@ import { UtilsModule } from './utils/utils.module';
         REDIS_URL: Joi.string().required(),
       }),
     }),
-    ClientsModule.registerAsync([
-      {
-        name: 'CONVERTER_WORKER',
-        useFactory: async (configService: ConfigService) => ({
-          transport: Transport.RMQ,
-          options: {
-            urls: [configService.get<RmqUrl>('RMQ_URL')],
-            queue: configService.get('RMQ_CONVERTER_REQUEST_QUEUE'),
-          },
-        }),
-        inject: [ConfigService],
-      },
-    ]),
     WinstonModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         level: 'info',
@@ -93,8 +77,7 @@ import { UtilsModule } from './utils/utils.module';
       inject: [ConfigService],
     }),
     UtilsModule,
+    OfficeDocsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
