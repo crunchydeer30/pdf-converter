@@ -7,6 +7,7 @@ import {
   ParseFilePipe,
   MaxFileSizeValidator,
   Param,
+  Sse,
 } from '@nestjs/common';
 import { ConverterService } from './converter.service';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -25,6 +26,11 @@ export class ConverterController {
   @Get('files/:jobId')
   async download(@Param() { jobId }: { jobId: string }) {
     return this.converterService.download(jobId);
+  }
+
+  @Sse('files/:jobId/progress')
+  getJobUpdates(@Param() { jobId }: { jobId: string }) {
+    return this.converterService.getJobUpdates(jobId);
   }
 
   @Post('office-to-pdf')
