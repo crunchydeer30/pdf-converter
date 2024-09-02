@@ -6,8 +6,12 @@ export enum JobStatus {
 }
 
 export interface FileMetadata {
-  file_id: string;
-  file_name: string;
-  file_size: number;
-  file_type: string;
+  fileName: string;
+  fileSize: number;
+  fileType: string;
+}
+
+export interface Job {
+  id: string;
+  status: JobStatus;
 }

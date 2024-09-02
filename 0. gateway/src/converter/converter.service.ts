@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { catchError } from 'rxjs';
+import { catchError, filter, map } from 'rxjs';
 import { UtilsService } from 'src/utils/utils.service';
 
 @Injectable()
@@ -16,8 +16,29 @@ export class ConverterService {
       .pipe(catchError(async (e) => this.utils.handleMicroserviceError(e)));
   }
 
-  async pingWorker() {
-    return this.converterService.emit('ping_worker', '');
+  async getJobStatus(jobId: string) {
+    return this.converterService
+      .send('job_status', jobId)
+      .pipe(catchError(async (e) => this.utils.handleMicroserviceError(e)));
+  }
+
+  async getJobUpdates(jobId: string) {
+    return this.converterService.send('job_progress', jobId).pipe(
+      filter((data) => {
+        if (data && 'jobId' in data) {
+          return data.jobId === jobId;
+        }
+        return false;
+      }),
+      map((data) => ({ data })),
+      catchError(async (e) => this.utils.handleMicroserviceError(e)),
+    );
+  }
+
+  async download(jobId: string) {
+    return this.converterService
+      .send('download', jobId)
+      .pipe(catchError(async (e) => this.utils.handleMicroserviceError(e)));
   }
 
   async officeToPdf(file: Express.Multer.File) {

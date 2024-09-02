@@ -8,13 +8,13 @@ import {
   MicroserviceException,
   microserviceExceptionSchema,
 } from './schemas/microservice-exceptions.schema';
-import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 
 @Injectable()
 export class UtilsService {
   constructor(
-    @Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}
 
   async handleMicroserviceError(error: unknown) {
