@@ -1,7 +1,7 @@
 import { InjectRedis } from '@nestjs-modules/ioredis';
 import { Inject, Injectable } from '@nestjs/common';
 import { Redis } from 'ioredis';
-import { JobStatus, Job } from 'src/interfaces';
+import { JobStatus, Job, FileMetadata } from 'src/interfaces';
 import { Logger } from 'winston';
 import { ClientProxy } from '@nestjs/microservices';
 import {
@@ -89,7 +89,7 @@ export class JobsService {
     );
   }
 
-  async completed(job: Job) {
+  async complete(job: Job) {
     switch (job.status) {
       case JobStatus.COMPLETED:
         this.logger.info(`Job completed: ${job.id}`, { jobId: job.id });
@@ -132,5 +132,26 @@ export class JobsService {
 
     const url = await getSignedUrl(this.s3, command, { expiresIn: 3600 });
     return { url };
+  }
+
+  async uploadToS3(
+    jobId: string,
+    file: Express.Multer.File,
+    fileMeta: FileMetadata,
+  ) {
+    try {
+      await this.s3.putObject({
+        Bucket: this.configService.get('S3_BUCKET'),
+        Key: `input/${jobId}/${fileMeta.fileName}`,
+        Body: Buffer.from(file.buffer),
+      });
+      this.logger.info(
+        `File uploaded to S3: input/${jobId}/${fileMeta.fileName}`,
+        { ...fileMeta, jobId },
+      );
+    } catch (e) {
+      this.logger.error('Error while uploading file to S3', { ...e, jobId });
+      throw new InternalServerErrorException();
+    }
   }
 }
