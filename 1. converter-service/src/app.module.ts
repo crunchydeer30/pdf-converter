@@ -19,6 +19,7 @@ import { JobsModule } from './jobs/jobs.module';
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
+        HOST: Joi.string().required(),
         PORT: Joi.number().required(),
         RMQ_URL: Joi.string().required(),
         RMQ_CONVERTER_RESPONSE_QUEUE: Joi.string().required(),
