@@ -17,8 +17,14 @@ export class ConverterService {
       .pipe(catchError(async (e) => this.utils.handleMicroserviceError(e)));
   }
 
+  async getJobStatus(jobId: string) {
+    return this.converterService
+      .send('job_status', jobId)
+      .pipe(catchError(async (e) => this.utils.handleMicroserviceError(e)));
+  }
+
   async getJobUpdates(jobId: string) {
-    return this.converterService.send('job_updates', jobId).pipe(
+    return this.converterService.send('job_progress', jobId).pipe(
       map((data) => ({ data })),
       catchError(async (e) => this.utils.handleMicroserviceError(e)),
     );

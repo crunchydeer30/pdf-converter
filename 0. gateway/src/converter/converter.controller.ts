@@ -23,9 +23,14 @@ export class ConverterController {
     return this.converterService.pingConverterService();
   }
 
-  @Get('files/:jobId')
+  @Get('files/:jobId/download')
   async download(@Param() { jobId }: { jobId: string }) {
     return this.converterService.download(jobId);
+  }
+
+  @Get('files/:jobId/status')
+  async getJobStatus(@Param() { jobId }: { jobId: string }) {
+    return this.converterService.getJobStatus(jobId);
   }
 
   @Sse('files/:jobId/progress')
