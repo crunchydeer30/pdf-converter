@@ -30,27 +30,33 @@ const config: Config = {
       colors: {
         default: {
           DEFAULT: "#e74c3c",
-          light: "#faf6f6",
+          light: "#e95e4f",
+          "very-light": "#faf6f6",
         },
         word: {
           DEFAULT: "#2980b9",
-          light: "#f2f9fe",
+          light: "#2e90d0",
+          "very-light": "#f2f9fe",
         },
         excel: {
           DEFAULT: "#27ae60",
-          light: "#f9fefb",
+          light: "#2cc66d",
+          "very-light": "#f9fefb",
         },
         ppt: {
           DEFAULT: "#d35400",
-          light: "#fffcfa",
+          light: "#f16000",
+          "very-light": "#fffcfa",
         },
         jpg: {
           DEFAULT: "#9b59b6",
-          light: "#fdf8ff",
+          light: "#a56abd",
+          "very-light": "#fdf8ff",
         },
         openoffice: {
           DEFAULT: "#3498db",
-          light: "#f8fcff",
+          light: "#48a2df",
+          "very-light": "#f8fcff",
         },
       },
     },
