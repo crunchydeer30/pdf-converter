@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeWord } from "@/ui/themes/ThemeWord";
-import Layout from "@/ui/layout/Layout";
+import ConverterLayout from "@/ui/layout/ConverterLayout";
 
 export const metadata: Metadata = {
   title: "Best Word to PDF Converter: Convert DOCX Docs Online (FREE)",
@@ -13,5 +13,5 @@ export default function WordLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <Layout theme={ThemeWord}>{children}</Layout>;
+  return <ConverterLayout theme={ThemeWord}>{children}</ConverterLayout>;
 }

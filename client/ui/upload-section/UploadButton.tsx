@@ -24,7 +24,7 @@ export default function UploadButton({ theme, ...props }: UploadButtonProps) {
     "px-10",
     "w-[600px]",
     "rounded-full",
-    "text-lg",
+    "text-xl",
     "font-bold",
   ];
   extendClassNames(props, className);

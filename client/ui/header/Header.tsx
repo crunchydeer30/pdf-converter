@@ -8,8 +8,8 @@ interface HeaderProps {
 
 export function Header({ theme }: HeaderProps) {
   return (
-    <header className="shadow-sm">
-      <nav className="flex items-center justify-between border-2 p-6">
+    <header className="shadow">
+      <nav className="flex items-center justify-between border-2 px-5 py-7">
         <Link href="/" className="flex gap-2 items-center">
           <svg className={`w-6 h-6 fill-${theme.color}`}>
             <use href={`/assets/logos.svg#logo-secondary`}></use>
@@ -20,7 +20,7 @@ export function Header({ theme }: HeaderProps) {
           <svg className="w-10 h-10">
             <use href={`/assets/logos.svg#${theme.logo}`}></use>
           </svg>
-          <h1 className="text-2xl font-bold">{theme.data.title}</h1>
+          <h1 className="text-[26px] font-bold">{theme.data.title}</h1>
         </div>
         <div className="">
           <Button href="signup" theme={theme}>

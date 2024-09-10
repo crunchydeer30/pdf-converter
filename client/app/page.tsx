@@ -1,10 +1,10 @@
-import Layout from "@/ui/layout/Layout";
 import { ThemeDefault } from "@/ui/themes/ThemeDefault";
+import ConverterLayout from "@/ui/layout/ConverterLayout";
 
 export default function Home() {
   return (
-    <Layout theme={ThemeDefault}>
+    <ConverterLayout theme={ThemeDefault}>
       <div>Home</div>
-    </Layout>
+    </ConverterLayout>
   );
 }

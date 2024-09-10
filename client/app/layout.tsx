@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={imbPlexSans.className}>{children}</body>
+      <body className={imbPlexSans.className + " text-p-1"}>{children}</body>
     </html>
   );
 }

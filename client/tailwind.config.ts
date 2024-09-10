@@ -10,24 +10,30 @@ const config: Config = {
   safelist: [
     {
       pattern: /text-(default|word|excel|ppt|jpg|openoffice)/,
-      variants: ["hover"],
+      variants: ["hover", "before"],
     },
     {
       pattern: /bg-(default|word|excel|ppt|jpg|openoffice)/,
-      variants: ["hover"],
+      variants: ["hover", "before"],
     },
     {
       pattern: /border-(default|word|excel|ppt|jpg|openoffice)/,
-      variants: ["hover"],
+      variants: ["hover", "before"],
     },
     {
       pattern: /fill-(default|word|excel|ppt|jpg|openoffice)/,
-      variants: ["hover"],
+      variants: ["hover", "before"],
     },
   ],
   theme: {
     extend: {
       colors: {
+        p: {
+          1: "#313131",
+        },
+        s: {
+          1: "#505050",
+        },
         default: {
           DEFAULT: "#e74c3c",
           light: "#e95e4f",
