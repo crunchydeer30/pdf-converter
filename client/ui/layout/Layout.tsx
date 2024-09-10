@@ -12,7 +12,7 @@ export default function Layout({ children, theme }: LayoutProps) {
   return (
     <>
       <Header theme={theme} />
-      <main>{children}</main>
+      <main className="grow-1">{children}</main>
       <Footer theme={theme} />
     </>
   );

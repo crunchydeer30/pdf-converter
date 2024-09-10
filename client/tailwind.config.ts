@@ -22,7 +22,7 @@ const config: Config = {
     },
     {
       pattern: /fill-(default|word|excel|ppt|jpg|openoffice)/,
-      variants: ["hover", "before"],
+      variants: ["hover"],
     },
   ],
   theme: {
