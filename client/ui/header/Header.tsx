@@ -20,7 +20,7 @@ export function Header({ theme }: HeaderProps) {
           <svg className="w-10 h-10">
             <use href={`/assets/logos.svg#${theme.logo}`}></use>
           </svg>
-          <span className="text-2xl font-bold">{theme.title}</span>
+          <span className="text-2xl font-bold">{theme.data.title}</span>
         </div>
         <div className="">
           <Button href="signup" theme={theme}>
