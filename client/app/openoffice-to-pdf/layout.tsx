@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Best Word to PDF Converter: Convert DOCX Docs Online (FREE)",
+  title: "Convert OpenOffice ODT files to PDF online and free",
   description:
-    "Easily convert DOC and DOCX files to PDF using online Word to PDF converter.",
+    "Easily convert OpenOffice ODT files to PDF using this free OpenOffice to PDF converter.",
 };
 
 export default function WordLayout({

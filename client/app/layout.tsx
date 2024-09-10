@@ -21,11 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={
-          imbPlexSans.className + " text-p-1 flex flex-col min-h-screen"
-        }
-      >
+      <body className={imbPlexSans.className + " text-p-1 flex flex-col"}>
         {children}
       </body>
     </html>

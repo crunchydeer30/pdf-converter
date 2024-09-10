@@ -1,3 +1,6 @@
+import { ThemeWord } from "@/ui/themes/Themes";
+import ConverterLayout from "@/ui/layout/ConverterLayout";
+
 export default function Word() {
-  return <div>Word</div>;
+  return <ConverterLayout theme={ThemeWord}></ConverterLayout>;
 }
