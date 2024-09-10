@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ThemeWord } from "@/ui/themes/ThemeWord";
+import { ThemeWord } from "@/ui/themes/Themes";
 import ConverterLayout from "@/ui/layout/ConverterLayout";
 
 export const metadata: Metadata = {
