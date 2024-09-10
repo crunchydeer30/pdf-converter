@@ -10,9 +10,19 @@ const config: Config = {
   safelist: [
     {
       pattern: /text-(default|word|excel|ppt|jpg|openoffice)/,
+      variants: ["hover"],
     },
     {
       pattern: /bg-(default|word|excel|ppt|jpg|openoffice)/,
+      variants: ["hover"],
+    },
+    {
+      pattern: /border-(default|word|excel|ppt|jpg|openoffice)/,
+      variants: ["hover"],
+    },
+    {
+      pattern: /fill-(default|word|excel|ppt|jpg|openoffice)/,
+      variants: ["hover"],
     },
   ],
   theme: {
