@@ -27,6 +27,12 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      container: {
+        center: true,
+        screens: {
+          "2xl": "1240px",
+        },
+      },
       colors: {
         p: {
           1: "#313131",

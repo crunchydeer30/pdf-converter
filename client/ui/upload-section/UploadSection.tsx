@@ -8,14 +8,14 @@ interface UploadSectionProps {
 export function UploadSection({ theme }: UploadSectionProps) {
   return (
     <section className={` bg-${theme.color}-very-light border-b-[1px]`}>
-      <div className="flex flex-col gap-20 justify-center items-center py-16 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-20 justify-center items-center py-16 container">
         <h2 className="text-s-1 text-xl pt-12">{theme.data.subheader}</h2>
         <div>
           <UploadButton theme={theme} />
         </div>
         <div className="flex flex-col gap-12 items-center">
           <h2 className="text-xl font-bold">{theme.data.howTo.title}</h2>
-          <ol className="grid grid-cols-3 gap-12 steps">
+          <ol className="grid grid-cols-3 gap-8 steps">
             {Object.entries(theme.data.howTo.steps).map(([key, value]) => (
               <Step key={key} theme={theme}>
                 {value}
