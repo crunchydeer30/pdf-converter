@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { Theme } from "../themes/types/Theme";
+import { ExtendableClassNames } from "../extendableClassNames/extendable";
+import { extendClassNames } from "../extendableClassNames/extendable";
 
-interface ButtonProps {
+interface ButtonProps extends ExtendableClassNames {
   type?: "button" | "submit" | "reset";
   onClick?: () => void;
   href?: string;
-  className?: string;
   children: React.ReactNode;
   theme: Theme;
 }
@@ -26,7 +27,7 @@ export function Button({ theme, href, children, ...props }: ButtonProps) {
     "py-2",
   ];
 
-  if (props.className) className.push(props.className);
+  extendClassNames(props, className);
 
   if (href) {
     return (
