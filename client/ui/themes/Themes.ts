@@ -37,7 +37,7 @@ export const ThemeExcel: Theme = {
 
 export const ThemeJPG: Theme = {
   color: "jpg",
-  logo: "logo-ppt",
+  logo: "logo-jpg",
   data: {
     title: "JPG to PDF Converter",
     subheader:
@@ -55,7 +55,7 @@ export const ThemeJPG: Theme = {
 
 export const ThemeOpenOffice: Theme = {
   color: "openoffice",
-  logo: "logo-ppt",
+  logo: "logo-openoffice",
   data: {
     title: "Convert OpenOffice files to PDF",
     subheader:
