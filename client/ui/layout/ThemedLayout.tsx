@@ -3,16 +3,16 @@ import { Theme } from "@/ui/themes/types/Theme";
 import { Header } from "@/ui/header/Header";
 import Footer from "@/ui/footer/Footer";
 
-interface LayoutProps {
+interface ThemedLayoutProps {
   children: ReactNode;
   theme: Theme;
 }
 
-export default function Layout({ children, theme }: LayoutProps) {
+export default function ThemedLayout({ children, theme }: ThemedLayoutProps) {
   return (
     <>
       <Header theme={theme} />
-      <main className="grow-1">{children}</main>
+      <main className="grow flex flex-col">{children}</main>
       <Footer theme={theme} />
     </>
   );
