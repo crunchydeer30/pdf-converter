@@ -1,0 +1,11 @@
+<svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;"
+  version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <symbol id="download" viewBox="0 0 32 32">
+      <path fill-rule="evenodd" clip-rule="evenodd"
+        d="M11.94.97a.97.97 0 011.94 0V17.8l1.3-1.3a.97.97 0 111.37 1.38l-2.85 2.84c-.21.21-.49.3-.76.29a.97.97 0 01-.75-.29l-2.85-2.84a.97.97 0 111.37-1.38l1.23 1.23V.97zm13.08 10.67c.52 0 .95.42.95.94v7.55A5.87 5.87 0 0120.09 26H5.87A5.87 5.87 0 010 20.13v-7.55a.94.94 0 011.89 0v7.55c0 2.2 1.78 3.98 3.98 3.98H20.1c2.2 0 3.99-1.78 3.99-3.98v-7.55c0-.52.42-.94.94-.94z"
+        fill="#fff"></path>
+    </symbol>
+  </defs>
+</svg>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Theme } from "../themes/types/Theme";
+import { Theme } from "../../../../ui/themes/types/Theme";
 
 interface ProductProps {
   theme: Theme;

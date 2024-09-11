@@ -6,7 +6,7 @@ import {
   ThemeOpenOffice,
   ThemePPT,
   ThemeWord,
-} from "../themes/Themes";
+} from "../../../../ui/themes/Themes";
 
 export default function ProductsSection() {
   return (

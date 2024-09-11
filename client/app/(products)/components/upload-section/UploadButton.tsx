@@ -1,12 +1,14 @@
+"use client";
 import {
   ExtendableClassNames,
   extendClassNames,
-} from "../extendableClassNames/extendable";
-import { Theme } from "../themes/types/Theme";
+} from "../../../../ui/extendableClassNames/extendable";
+import { Theme } from "../../../../ui/themes/types/Theme";
 
 interface UploadButtonProps extends ExtendableClassNames {
   theme: Theme;
   className?: string;
+  onClick: () => void;
 }
 
 export default function UploadButton({ theme, ...props }: UploadButtonProps) {
@@ -30,7 +32,11 @@ export default function UploadButton({ theme, ...props }: UploadButtonProps) {
   extendClassNames(props, className);
 
   return (
-    <button type="submit" className={className.join(" ")}>
+    <button
+      type="button"
+      className={className.join(" ")}
+      onClick={props.onClick}
+    >
       <span className="absolute left-6">+</span>
       <span>Choose File</span>
     </button>

@@ -1,6 +1,6 @@
 import { Theme } from "../themes/types/Theme";
-import { UploadSection } from "../upload-section/UploadSection";
-import ProductsSection from "../products-section/ProductsSection";
+import { UploadSection } from "../../app/(products)/components/upload-section/UploadSection";
+import ProductsSection from "../../app/(products)/components/products-section/ProductsSection";
 
 interface ConverterLayoutProps {
   theme: Theme;
@@ -9,7 +9,7 @@ interface ConverterLayoutProps {
 export default function ConverterLayout({ theme }: ConverterLayoutProps) {
   return (
     <>
-      <UploadSection theme={theme} />
+      {/* <UploadSection theme={theme} onSubmit={() => {}} /> */}
       <ProductsSection />
     </>
   );

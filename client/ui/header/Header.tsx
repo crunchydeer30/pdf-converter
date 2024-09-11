@@ -23,7 +23,7 @@ export function Header({ theme }: HeaderProps) {
           <h1 className="text-[26px] font-bold">{theme.data.title}</h1>
         </div>
         <div className="">
-          <Button href="signup" theme={theme}>
+          <Button href="/signup" theme={theme}>
             Sing Up
           </Button>
         </div>

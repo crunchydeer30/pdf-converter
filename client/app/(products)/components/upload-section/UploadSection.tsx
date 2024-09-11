@@ -1,18 +1,17 @@
-import { Theme } from "../themes/types/Theme";
-import UploadButton from "./UploadButton";
+"use client";
+import { Theme } from "../../../../ui/themes/types/Theme";
 
 interface UploadSectionProps {
   theme: Theme;
+  form: React.ReactNode;
 }
 
-export function UploadSection({ theme }: UploadSectionProps) {
+export function UploadSection({ theme, form }: UploadSectionProps) {
   return (
     <section className={` bg-${theme.color}-very-light border-b-[1px]`}>
       <div className="flex flex-col gap-20 justify-center items-center py-16 container">
         <h2 className="text-s-1 text-xl pt-12">{theme.data.subheader}</h2>
-        <form>
-          <UploadButton theme={theme} />
-        </form>
+        {form}
         <div className="flex flex-col gap-12 items-center">
           <h2 className="text-xl font-bold">{theme.data.howTo.title}</h2>
           <ol className="grid grid-cols-3 gap-8 steps">
