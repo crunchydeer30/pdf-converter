@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import ThemedLayout from "@/ui/layout/ThemedLayout";
+import { ThemeExcel } from "@/ui/themes/Themes";
 
 export const metadata: Metadata = {
   title: "Best Excel to PDF Converter: Convert XLS Files Online (FREE)",
@@ -11,5 +13,5 @@ export default function WordLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return children;
+  return <ThemedLayout theme={ThemeExcel}>{children}</ThemedLayout>;
 }
