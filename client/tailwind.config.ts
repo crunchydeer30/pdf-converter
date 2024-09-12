@@ -14,7 +14,7 @@ const config: Config = {
     },
     {
       pattern: /bg-(default|word|excel|ppt|jpg|openoffice)/,
-      variants: ["hover", "before"],
+      variants: ["hover", "before", "disabled"],
     },
     {
       pattern: /border-(default|word|excel|ppt|jpg|openoffice)/,

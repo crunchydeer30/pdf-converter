@@ -5,19 +5,19 @@ import {
 } from "../../../../ui/extendableClassNames/extendable";
 import { Theme } from "../../../../ui/themes/types/Theme";
 
-interface UploadButtonProps extends ExtendableClassNames {
+interface ChooseFileButtonProps extends ExtendableClassNames {
   theme: Theme;
   className?: string;
   onClick: () => void;
   isLoading?: boolean;
 }
 
-export default function UploadButton({
+export default function ChooseFileButton({
   theme,
   isLoading,
   onClick,
   ...props
-}: UploadButtonProps) {
+}: ChooseFileButtonProps) {
   const className = [
     "flex",
     "gap-2",
@@ -34,6 +34,10 @@ export default function UploadButton({
     "rounded-full",
     "text-xl",
     "font-bold",
+    `disabled:bg-${theme.color}-light`,
+    `disabled:opacity-50`,
+    "disabled:cursor-not-allowed",
+    "cursor-pointer",
   ];
   extendClassNames(props, className);
 
@@ -42,10 +46,14 @@ export default function UploadButton({
       type="button"
       className={className.join(" ")}
       onClick={onClick}
-      disabled={isLoading}
+      disabled={Boolean(isLoading)}
     >
       {isLoading ? (
-        <span className="absolute left-6">+</span>
+        <span className="absolute left-6">
+          <svg className="w-6 h-6 fill-white animate-spin">
+            <use href={`/assets/icons.svg#spinner1`}></use>
+          </svg>
+        </span>
       ) : (
         <span className="absolute left-6">+</span>
       )}
