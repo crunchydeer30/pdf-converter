@@ -1,17 +1,8 @@
 "use client";
 import React from "react";
-import { motion } from "framer-motion";
 import { ThemeOpenOffice } from "@/ui/themes/Themes";
+import JobTemplate from "@/app/(products)/components/jobs/JobTemplate";
 
 export default function Template({ children }: { children: React.ReactNode }) {
-  return (
-    <motion.div
-      initial={{ x: "25%", opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{ ease: "easeInOut", duration: 0.5 }}
-      className={`grow bg-${ThemeOpenOffice.color}-very-light`}
-    >
-      {children}
-    </motion.div>
-  );
+  return <JobTemplate theme={ThemeOpenOffice}>{children}</JobTemplate>;
 }

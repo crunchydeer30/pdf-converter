@@ -1,11 +1,11 @@
 import { ThemeWord } from "@/ui/themes/Themes";
 import { JobStatus } from "../../services";
 
-interface JobIconProps {
+interface JobStatusIconProps {
   status: JobStatus;
 }
 
-export default function JobIcon({ status }: JobIconProps) {
+export default function JobStatusIcon({ status }: JobStatusIconProps) {
   return (
     <div className="shadow-xl w-[200px] h-[300px] bg-white rounded-lg flex justify-center items-center">
       <Status status={status} />
@@ -13,7 +13,7 @@ export default function JobIcon({ status }: JobIconProps) {
   );
 }
 
-function Status({ status }: JobIconProps) {
+function Status({ status }: JobStatusIconProps) {
   switch (status) {
     case JobStatus.PENDING:
     case JobStatus.PROCESSING:
