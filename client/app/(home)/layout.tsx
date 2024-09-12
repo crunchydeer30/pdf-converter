@@ -1,6 +1,7 @@
 import { ThemeDefault } from "@/ui/themes/Themes";
 import type { Metadata } from "next";
 import ThemedLayout from "@/ui/layout/ThemedLayout";
+import { Default } from "../(products)/data/products";
 
 export const metadata: Metadata = {
   title: "Best PDF Converter: Create, Convert PDF Files Online (FREE)",
@@ -9,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <ThemedLayout theme={ThemeDefault}>{children}</ThemedLayout>;
+  return <ThemedLayout product={Default}>{children}</ThemedLayout>;
 }

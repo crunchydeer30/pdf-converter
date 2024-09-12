@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import ThemedLayout from "@/ui/layout/ThemedLayout";
-import { ThemePPT } from "@/ui/themes/Themes";
+import { PptToPdf } from "../../data/products";
 
 export const metadata: Metadata = {
   title: "Best PPT to PDF Converter: Convert Powerpoint Online (FREE)",
@@ -12,5 +12,5 @@ export default function WordLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <ThemedLayout theme={ThemePPT}>{children}</ThemedLayout>;
+  return <ThemedLayout product={PptToPdf}>{children}</ThemedLayout>;
 }

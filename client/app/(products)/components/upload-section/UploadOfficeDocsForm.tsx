@@ -10,11 +10,13 @@ import { LoaderContext } from "@/ui/loader/LoaderContext";
 import { useState } from "react";
 import { officeToPdf, selectProductHandler } from "../../services";
 
-interface UploadFormProps {
+interface UploadOfficeDocsFormProps {
   theme: Theme;
 }
 
-export default function UploadForm({ theme }: UploadFormProps) {
+export default function UploadOfficeDocsForm({
+  theme,
+}: UploadOfficeDocsFormProps) {
   const { setProgress } = useContext(LoaderContext);
   const [isLoading, setIsLoading] = useState(false);
   const fileInput = useRef<HTMLInputElement | null>(null);

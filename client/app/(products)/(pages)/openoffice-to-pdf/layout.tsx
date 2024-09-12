@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import ThemedLayout from "@/ui/layout/ThemedLayout";
-import { ThemeOpenOffice } from "@/ui/themes/Themes";
+import { OpenOfficeToPdf } from "../../data/products";
 
 export const metadata: Metadata = {
   title: "Convert OpenOffice ODT files to PDF online and free",
@@ -13,5 +13,5 @@ export default function WordLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <ThemedLayout theme={ThemeOpenOffice}>{children}</ThemedLayout>;
+  return <ThemedLayout product={OpenOfficeToPdf}>{children}</ThemedLayout>;
 }

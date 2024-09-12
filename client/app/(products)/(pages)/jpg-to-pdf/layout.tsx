@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import ThemedLayout from "@/ui/layout/ThemedLayout";
-import { ThemeJPG } from "@/ui/themes/Themes";
+import { JpgToPdf } from "../../data/products";
 
 export const metadata: Metadata = {
   title: "Best JPG to PDF Converter: Convert JPEG Images Online (FREE)",
@@ -13,5 +13,5 @@ export default function WordLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <ThemedLayout theme={ThemeJPG}>{children}</ThemedLayout>;
+  return <ThemedLayout product={JpgToPdf}>{children}</ThemedLayout>;
 }

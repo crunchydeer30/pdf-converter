@@ -1,19 +1,19 @@
 import { ReactNode } from "react";
-import { Theme } from "@/ui/themes/types/Theme";
 import { Header } from "@/ui/header/Header";
 import Footer from "@/ui/footer/Footer";
+import { Product } from "@/app/(products)/data/products";
 
 interface ThemedLayoutProps {
   children: ReactNode;
-  theme: Theme;
+  product: Product;
 }
 
-export default function ThemedLayout({ children, theme }: ThemedLayoutProps) {
+export default function ThemedLayout({ children, product }: ThemedLayoutProps) {
   return (
     <>
-      <Header theme={theme} />
+      <Header product={product} />
       <main className="grow flex flex-col">{children}</main>
-      <Footer theme={theme} />
+      <Footer theme={product.theme} />
     </>
   );
 }
