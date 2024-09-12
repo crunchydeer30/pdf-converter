@@ -9,9 +9,15 @@ interface UploadButtonProps extends ExtendableClassNames {
   theme: Theme;
   className?: string;
   onClick: () => void;
+  isLoading?: boolean;
 }
 
-export default function UploadButton({ theme, ...props }: UploadButtonProps) {
+export default function UploadButton({
+  theme,
+  isLoading,
+  onClick,
+  ...props
+}: UploadButtonProps) {
   const className = [
     "flex",
     "gap-2",
@@ -35,9 +41,14 @@ export default function UploadButton({ theme, ...props }: UploadButtonProps) {
     <button
       type="button"
       className={className.join(" ")}
-      onClick={props.onClick}
+      onClick={onClick}
+      disabled={isLoading}
     >
-      <span className="absolute left-6">+</span>
+      {isLoading ? (
+        <span className="absolute left-6">+</span>
+      ) : (
+        <span className="absolute left-6">+</span>
+      )}
       <span>Choose File</span>
     </button>
   );

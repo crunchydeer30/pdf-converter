@@ -1,5 +1,5 @@
-"use client";
-import { Theme } from "../../../../ui/themes/types/Theme";
+import { Theme } from "@/ui/themes/types/Theme";
+import UploadFormWrapper from "./UploadFormWrapper";
 
 interface UploadSectionProps {
   theme: Theme;
@@ -8,10 +8,10 @@ interface UploadSectionProps {
 
 export function UploadSection({ theme, form }: UploadSectionProps) {
   return (
-    <section className={` bg-${theme.color}-very-light border-b-[1px]`}>
+    <section className={`relative bg-${theme.color}-very-light border-b-[1px]`}>
       <div className="flex flex-col gap-20 justify-center items-center py-16 container">
         <h2 className="text-s-1 text-xl pt-12">{theme.data.subheader}</h2>
-        {form}
+        <UploadFormWrapper theme={theme}>{form}</UploadFormWrapper>
         <div className="flex flex-col gap-12 items-center">
           <h2 className="text-xl font-bold">{theme.data.howTo.title}</h2>
           <ol className="grid grid-cols-3 gap-8 steps">

@@ -1,6 +1,16 @@
 import { ThemeOpenOffice } from "@/ui/themes/Themes";
-import ConverterLayout from "@/ui/layout/ConverterLayout";
+import { UploadSection } from "../../components/upload-section/UploadSection";
+import UploadForm from "../../components/upload-section/UploadForm";
+import ProductsSection from "../../components/products-section/ProductsSection";
 
 export default function OpeThemeOpenOffice() {
-  return <ConverterLayout theme={ThemeOpenOffice}></ConverterLayout>;
+  return (
+    <>
+      <UploadSection
+        theme={ThemeOpenOffice}
+        form={<UploadForm theme={ThemeOpenOffice} />}
+      />
+      <ProductsSection />
+    </>
+  );
 }

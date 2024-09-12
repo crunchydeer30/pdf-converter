@@ -1,6 +1,13 @@
 import { ThemeJPG } from "@/ui/themes/Themes";
-import ConverterLayout from "@/ui/layout/ConverterLayout";
+import ProductsSection from "../../components/products-section/ProductsSection";
+import { UploadSection } from "../../components/upload-section/UploadSection";
+import UploadForm from "../../components/upload-section/UploadForm";
 
 export default function JPG() {
-  return <ConverterLayout theme={ThemeJPG}></ConverterLayout>;
+  return (
+    <>
+      <UploadSection theme={ThemeJPG} form={<UploadForm theme={ThemeJPG} />} />
+      <ProductsSection />
+    </>
+  );
 }
