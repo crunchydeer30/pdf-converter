@@ -1,11 +1,7 @@
 "use client";
-import { useParams } from "next/navigation";
+import JobPage from "@/app/(products)/components/jobs/JobPage";
+import { ThemeJPG } from "@/ui/themes/Themes";
 
-export default function WordJob() {
-  const { id } = useParams();
-  return (
-    <div className="container h-[90vh] flex justify-center align-center text-3xl font-bold">
-      {id}
-    </div>
-  );
+export default function JPGJob() {
+  return <JobPage theme={ThemeJPG} />;
 }

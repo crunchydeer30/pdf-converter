@@ -62,7 +62,7 @@ export const selectProductHandler = (fileType: string) => {
       return "word-to-pdf";
     case "application/vnd.ms-excel":
       return "excel-to-pdf";
-    case "application/vnd.ms-powerpoint":
+    case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
       return "ppt-to-pdf";
     case "application/vnd.oasis.opendocument.text":
       return "openoffice-to-pdf";

@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import { ThemeWord } from "@/ui/themes/Themes";
 import JobTemplate from "@/app/(products)/components/jobs/JobTemplate";

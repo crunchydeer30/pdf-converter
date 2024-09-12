@@ -1,11 +1,7 @@
 "use client";
-import { useParams } from "next/navigation";
+import { ThemeExcel } from "@/ui/themes/Themes";
+import JobPage from "@/app/(products)/components/jobs/JobPage";
 
 export default function PPTJob() {
-  const { id } = useParams();
-  return (
-    <div className="container h-[90vh] flex justify-center align-center text-3xl font-bold">
-      {id}
-    </div>
-  );
+  return <JobPage theme={ThemeExcel} />;
 }
