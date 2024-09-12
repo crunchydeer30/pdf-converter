@@ -30,7 +30,6 @@ export default function UploadForm({ theme }: UploadFormProps) {
     if (e.target.files) {
       const formData = new FormData();
       if (e.target.files.length === 1) {
-        console.log(e.target.files[0]);
         formData.append("file", e.target.files[0]);
         try {
           setIsLoading(true);

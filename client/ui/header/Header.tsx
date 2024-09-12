@@ -24,7 +24,7 @@ export function Header({ theme }: HeaderProps) {
         </div>
         <div className="">
           <Button href="/signup" theme={theme}>
-            Sing Up
+            Sign Up
           </Button>
         </div>
       </nav>

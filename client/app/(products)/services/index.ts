@@ -6,6 +6,22 @@ interface UploadOfficeToPdfResponse {
   jobId: string;
 }
 
+export interface JobStatusResponse {
+  status: JobStatus;
+  jobId: string;
+}
+
+export interface DownloadFileResponse {
+  url: string;
+}
+
+export enum JobStatus {
+  PENDING = "pending",
+  PROCESSING = "processing",
+  COMPLETED = "completed",
+  FAILED = "failed",
+}
+
 export const officeToPdf = async (
   formData: FormData,
   setProgress?: React.Dispatch<React.SetStateAction<number>>
@@ -23,6 +39,20 @@ export const officeToPdf = async (
     }
   );
   return response.data;
+};
+
+export const getJobStatus = async (id: string): Promise<JobStatusResponse> => {
+  const response = await axios.get(
+    `${env.API_GATEWAY}/converter/files/${id}/status`
+  );
+  return response.data;
+};
+
+export const downloadFile = async (id: string) => {
+  const response = await axios.get<DownloadFileResponse>(
+    `${env.API_GATEWAY}/converter/files/${id}/download`
+  );
+  window.open(response.data.url, "_blank");
 };
 
 export const selectProductHandler = (fileType: string) => {
