@@ -1,5 +1,6 @@
 import { env } from "@/config/env";
 import axios, { AxiosProgressEvent } from "axios";
+import { Products } from "../data/products";
 
 interface UploadOfficeToPdfResponse {
   message: string;
@@ -55,20 +56,12 @@ export const downloadFile = async (id: string) => {
   window.open(response.data.url, "_blank");
 };
 
-export const selectProductHandler = (fileType: string) => {
-  console.log(fileType);
-  switch (fileType) {
-    case "application/msword":
-      return "word-to-pdf";
-    case "application/vnd.ms-excel":
-      return "excel-to-pdf";
-    case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
-      return "ppt-to-pdf";
-    case "application/vnd.oasis.opendocument.text":
-      return "openoffice-to-pdf";
-    default:
-      throw new Error("Invalid file type");
-  }
+export const selectProduct = (mime: string) => {
+  const product = Products.find((product) => {
+    return product.mimes.includes(mime);
+  });
+  if (!product) throw new Error("Sorry, we are not able to convert this file.");
+  return product.href;
 };
 
 function handleUploadProgress(

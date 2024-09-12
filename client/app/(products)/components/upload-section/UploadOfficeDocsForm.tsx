@@ -1,6 +1,6 @@
 "use client";
 import ChooseFileButton from "./ChooseFileButton";
-import { Theme } from "@/ui/themes/types/Theme";
+import { Product } from "../../data/products";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
 import { LoaderProvider } from "@/ui/loader/LoaderContext";
@@ -8,14 +8,14 @@ import LoaderBar from "@/ui/loader/LoaderBar";
 import { useContext } from "react";
 import { LoaderContext } from "@/ui/loader/LoaderContext";
 import { useState } from "react";
-import { officeToPdf, selectProductHandler } from "../../services";
+import { officeToPdf, selectProduct } from "../../services";
 
 interface UploadOfficeDocsFormProps {
-  theme: Theme;
+  product: Product;
 }
 
 export default function UploadOfficeDocsForm({
-  theme,
+  product,
 }: UploadOfficeDocsFormProps) {
   const { setProgress } = useContext(LoaderContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,9 +37,7 @@ export default function UploadOfficeDocsForm({
           setIsLoading(true);
           const response = await officeToPdf(formData, setProgress);
           router.push(
-            `/${selectProductHandler(e.target.files[0].type)}/jobs/${
-              response.jobId
-            }`
+            `${selectProduct(e.target.files[0].type)}/jobs/${response.jobId}`
           );
         } catch (e) {
           setIsLoading(false);
@@ -51,11 +49,17 @@ export default function UploadOfficeDocsForm({
 
   return (
     <LoaderProvider>
-      <LoaderBar theme={theme} />
+      <LoaderBar theme={product.theme} />
       <form>
-        <input type="file" onChange={handleFileChange} ref={fileInput} hidden />
+        <input
+          type="file"
+          onChange={handleFileChange}
+          ref={fileInput}
+          hidden
+          accept={product.mimes.join(",")}
+        />
         <ChooseFileButton
-          theme={theme}
+          theme={product.theme}
           onClick={openFileInput}
           isLoading={isLoading}
         />

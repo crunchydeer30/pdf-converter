@@ -11,6 +11,8 @@ import {
 export interface Product {
   theme: Theme;
   data: ProductData;
+  mimes: string[];
+  href: string;
 }
 
 interface ProductData {
@@ -40,6 +42,8 @@ export const Default: Product = {
       },
     },
   },
+  href: "/",
+  mimes: ["*"],
 };
 
 export const ExcelToPdf: Product = {
@@ -57,6 +61,14 @@ export const ExcelToPdf: Product = {
       },
     },
   },
+  mimes: [
+    "application/excel",
+    "application/vnd.ms-excel",
+    "application/x-excel",
+    "application/x-msexcel",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  ],
+  href: "/excel-to-pdf",
 };
 
 export const JpgToPdf: Product = {
@@ -74,6 +86,8 @@ export const JpgToPdf: Product = {
       },
     },
   },
+  mimes: ["image/jpeg"],
+  href: "/jpg-to-pdf",
 };
 
 export const OpenOfficeToPdf: Product = {
@@ -91,6 +105,12 @@ export const OpenOfficeToPdf: Product = {
       },
     },
   },
+  mimes: [
+    "application/vnd.oasis.opendocument.text",
+    "application/vnd.oasis.opendocument.presentation",
+    "application/vnd.oasis.opendocument.spreadsheet",
+  ],
+  href: "/openoffice-to-pdf",
 };
 
 export const PptToPdf: Product = {
@@ -107,6 +127,14 @@ export const PptToPdf: Product = {
       },
     },
   },
+  mimes: [
+    "application/mspowerpoint",
+    "application/powerpoint",
+    "application/vnd.ms-powerpoint",
+    "application/x-mspowerpoint",
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  ],
+  href: "/ppt-to-pdf",
 };
 
 export const WordToPdf: Product = {
@@ -124,4 +152,20 @@ export const WordToPdf: Product = {
       },
     },
   },
+  mimes: [
+    "application/doc",
+    "application/ms-doc",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  ],
+  href: "/word-to-pdf",
 };
+
+export const Products = [
+  Default,
+  ExcelToPdf,
+  JpgToPdf,
+  OpenOfficeToPdf,
+  PptToPdf,
+  WordToPdf,
+];

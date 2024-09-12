@@ -1,19 +1,19 @@
 import { LoaderProvider } from "@/ui/loader/LoaderContext";
 import LoaderBar from "@/ui/loader/LoaderBar";
-import { Theme } from "@/ui/themes/types/Theme";
+import { Product } from "../../data/products";
 
 interface UploadFormWrapperProps {
-  theme: Theme;
+  product: Product;
   children: React.ReactNode;
 }
 
 export default function UploadFormWrapper({
-  theme,
+  product,
   children,
 }: UploadFormWrapperProps) {
   return (
     <LoaderProvider>
-      <LoaderBar theme={theme} />
+      <LoaderBar theme={product.theme} />
       {children}
     </LoaderProvider>
   );

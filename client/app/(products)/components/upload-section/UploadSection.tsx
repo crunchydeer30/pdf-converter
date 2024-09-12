@@ -14,7 +14,7 @@ export function UploadSection({ product, form }: UploadSectionProps) {
     >
       <div className="flex flex-col gap-20 justify-center items-center py-16 container">
         <h2 className="text-s-1 text-xl pt-12">{product.data.subheader}</h2>
-        <UploadFormWrapper theme={product.theme}>{form}</UploadFormWrapper>
+        <UploadFormWrapper product={product}>{form}</UploadFormWrapper>
         <div className="flex flex-col gap-12 items-center">
           <h2 className="text-xl font-bold">{product.data.howTo.title}</h2>
           <ol className="grid grid-cols-3 gap-8 steps">

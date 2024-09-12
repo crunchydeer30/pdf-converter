@@ -1,4 +1,3 @@
-import { ThemeJPG } from "@/ui/themes/Themes";
 import ProductsSection from "../../components/products-section/ProductsSection";
 import { UploadSection } from "../../components/upload-section/UploadSection";
 import UploadForm from "../../components/upload-section/UploadOfficeDocsForm";
@@ -9,7 +8,7 @@ export default function JPG() {
     <>
       <UploadSection
         product={JpgToPdf}
-        form={<UploadForm theme={ThemeJPG} />}
+        form={<UploadForm product={JpgToPdf} />}
       />
       <ProductsSection />
     </>

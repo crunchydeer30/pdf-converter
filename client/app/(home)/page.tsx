@@ -1,4 +1,3 @@
-import { ThemeDefault } from "@/ui/themes/Themes";
 import ProductsSection from "@/app/(products)/components/products-section/ProductsSection";
 import UploadForm from "../(products)/components/upload-section/UploadOfficeDocsForm";
 import { UploadSection } from "@/app/(products)/components/upload-section/UploadSection";
@@ -9,7 +8,7 @@ export default function Home() {
     <>
       <UploadSection
         product={Default}
-        form={<UploadForm theme={ThemeDefault} />}
+        form={<UploadForm product={Default} />}
       />
       <ProductsSection />
     </>
