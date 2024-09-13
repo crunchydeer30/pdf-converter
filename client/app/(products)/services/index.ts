@@ -14,6 +14,7 @@ export interface JobStatusResponse {
 
 export interface DownloadFileResponse {
   url: string;
+  fileName: string;
 }
 
 export enum JobStatus {
@@ -49,11 +50,15 @@ export const getJobStatus = async (id: string): Promise<JobStatusResponse> => {
   return response.data;
 };
 
-export const downloadFile = async (id: string) => {
+export const downloadFile = async (link: string) => {
+  window.open(link, "_blank");
+};
+
+export const getDownloadLink = async (id: string) => {
   const response = await axios.get<DownloadFileResponse>(
     `${env.API_GATEWAY}/converter/files/${id}/download`
   );
-  window.open(response.data.url, "_blank");
+  return response.data;
 };
 
 export const selectProduct = (mime: string) => {

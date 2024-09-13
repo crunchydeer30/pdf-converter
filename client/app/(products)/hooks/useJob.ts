@@ -4,6 +4,7 @@ import {
   JobStatus,
   JobStatusResponse,
   downloadFile,
+  getDownloadLink,
   getJobStatus,
 } from "../services";
 import { getServerErrorMessage } from "@/utils";
@@ -15,12 +16,15 @@ export default function useJob() {
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [downloadLink, setDownloadLink] = useState<string | null>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchJobStatus = async () => {
       try {
         setIsLoading(true);
-        await getJobStatus(jobId as string);
+        const { status } = await getJobStatus(jobId as string);
+        setJobStatus(status);
       } catch (e) {
         setIsError(true);
         setError(getServerErrorMessage(e));
@@ -54,10 +58,22 @@ export default function useJob() {
     return () => eventSource.close();
   }, [jobId, isError]);
 
+  useEffect(() => {
+    const fetchDownloadLink = async () => {
+      const { url, fileName } = await getDownloadLink(jobId as string);
+      setDownloadLink(url);
+      setFileName(fileName);
+    };
+    if (jobStatus === JobStatus.COMPLETED) {
+      fetchDownloadLink();
+    }
+  }, [jobId, jobStatus]);
+
   const download = async () => {
-    if (jobStatus !== JobStatus.COMPLETED) return;
+    if (jobStatus !== JobStatus.COMPLETED || !downloadLink || !fileName)
+      throw new Error("Sorry, file is not available. Please try again later.");
     try {
-      await downloadFile(jobId as string);
+      await downloadFile(downloadLink);
     } catch (error) {
       setIsError(true);
       setError(getServerErrorMessage(error));
@@ -70,5 +86,7 @@ export default function useJob() {
     isError,
     error,
     isLoading,
+    downloadLink,
+    fileName,
   };
 }
