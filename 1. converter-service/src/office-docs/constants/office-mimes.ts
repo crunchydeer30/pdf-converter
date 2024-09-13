@@ -16,6 +16,7 @@ export const OFFICE_MIMES = [
   'application/ms-doc',
   'application/msword',
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/x-cfb',
 ];
 
 export const MAX_FILE_SIZE = 10 * 1024 * 1024;
