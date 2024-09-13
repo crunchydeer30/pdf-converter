@@ -20,10 +20,15 @@ export class UtilsService {
     channel.ack(message);
   }
 
-  async contentTypeFromUrl(url: string) {
+  async fileInfoFromUrl(url: string) {
     try {
       const response = await axios.head(url);
-      return response['content-type'];
+      const contentType = response.headers['content-type'];
+      const contentLength = response.headers['content-length'];
+      return {
+        contentType,
+        contentLength,
+      };
     } catch (error) {
       if (error.response.status === 404) {
         throw new BadRequestException(`Unable to access remote file: ${url}`);

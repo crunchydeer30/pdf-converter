@@ -5,7 +5,7 @@ import { Logger } from 'winston';
 import { UtilsService } from 'src/utils/utils.service';
 import { v4 as uuid } from 'uuid';
 import { JobsService } from 'src/jobs/jobs.service';
-import { OFFICE_MIMES } from './constants/office-mimes';
+import { MAX_FILE_SIZE, OFFICE_MIMES } from './constants/office-mimes';
 import * as path from 'path';
 
 @Injectable()
@@ -35,11 +35,16 @@ export class OfficeDocsService {
   }
 
   async validateLink(url: string) {
-    const mimetype = await this.utils.contentTypeFromUrl(url);
+    const { contentType, contentLength } =
+      await this.utils.fileInfoFromUrl(url);
 
-    if (!OFFICE_MIMES.includes(mimetype))
+    if (!OFFICE_MIMES.includes(contentType))
       throw new BadRequestException(
         `Sorry, we are not able to convert ${path.extname(url)} file.`,
       );
+
+    if (contentLength > MAX_FILE_SIZE) {
+      throw new BadRequestException(`File is too big`);
+    }
   }
 }
