@@ -15,6 +15,7 @@ import { InjectS3, S3 } from 'nestjs-s3';
 import { ConfigService } from '@nestjs/config';
 import { GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { basename } from 'path';
 
 @Injectable()
 export class JobsService {
@@ -131,7 +132,7 @@ export class JobsService {
     });
 
     const url = await getSignedUrl(this.s3, command, { expiresIn: 3600 });
-    return { url };
+    return { url, fileName: basename(data.Contents[0].Key) };
   }
 
   async uploadToS3(
