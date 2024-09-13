@@ -9,7 +9,8 @@ interface JobPageProps {
 }
 
 export default function JobPage({ theme }: JobPageProps) {
-  const { jobStatus, download, isError, error } = useJob();
+  const { jobStatus, isError, error, fileName, downloadLink, download } =
+    useJob();
 
   if (isError) {
     return (
@@ -21,10 +22,14 @@ export default function JobPage({ theme }: JobPageProps) {
 
   return (
     <div className="container h-full flex flex-col gap-4 justify-between items-center">
-      <JobStatusIcon status={jobStatus} theme={theme} />
-      {jobStatus === JobStatus.COMPLETED && (
+      <div className="flex flex-col gap-4 items-center">
+        <JobStatusIcon status={jobStatus} theme={theme} />
+        {fileName && <span className="text-sm text-s-1">{fileName}</span>}
+      </div>
+      {jobStatus === JobStatus.COMPLETED && downloadLink && fileName && (
         <DownloadButton theme={theme} onClick={download} />
       )}
     </div>
   );
 }
+2;
