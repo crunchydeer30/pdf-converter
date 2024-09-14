@@ -72,7 +72,7 @@ export default function OfficeDocsForm({ product }: OfficeDocsFormProps) {
         />
         <div>
           <button
-            className={`p-3 border border-gray-300 rounded-full bg-white hover:border-${product.theme.color} transition disabled:cursor-not-allowed`}
+            className={`p-3 border border-gray-300 rounded-full bg-white hover:border-${product.theme.color} transition disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-gray-300`}
             onClick={() => setIsModalOpen(true)}
             disabled={isLoading}
           >
