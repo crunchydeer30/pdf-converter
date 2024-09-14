@@ -6,14 +6,21 @@ import { Theme } from "@/ui/themes/types/Theme";
 import { useState } from "react";
 import { officeToPdfLink, selectProductLink } from "../../services";
 import { useRouter } from "next/navigation";
+import { getServerErrorMessage } from "@/utils";
 
 interface UrlInputProps {
   theme: Theme;
 }
 
 export default function UrlInput({ theme }: UrlInputProps) {
-  const { isModalOpen, setIsModalOpen, setIsLoading, setProgress } =
-    useContext(UploadFormContext);
+  const {
+    isModalOpen,
+    setIsModalOpen,
+    setIsLoading,
+    setProgress,
+    setIsError,
+    setError,
+  } = useContext(UploadFormContext);
   const [url, setUrl] = useState("");
   const router = useRouter();
 
@@ -31,6 +38,12 @@ export default function UrlInput({ theme }: UrlInputProps) {
     } catch (e) {
       setIsLoading(false);
       setProgress(0);
+      setIsError(true);
+      setError(getServerErrorMessage(e));
+      setTimeout(() => {
+        setIsError(false);
+        setError("");
+      }, 4000);
     }
   };
 

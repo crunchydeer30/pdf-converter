@@ -2,6 +2,7 @@ import { createContext } from "react";
 import { useState } from "react";
 import LoaderBar from "../components/upload-section/LoaderBar";
 import { Theme } from "@/ui/themes/types/Theme";
+import ErrorToast from "@/ui/error/ErrorToast";
 
 export const UploadFormContext = createContext<{
   progress: number;
@@ -21,7 +22,7 @@ export const UploadFormContext = createContext<{
   setIsLoading: () => null,
   isError: false,
   setIsError: () => null,
-  error: "",
+  error: "Error",
   setError: () => null,
   isModalOpen: false,
   setIsModalOpen: () => null,
@@ -56,6 +57,7 @@ export function UploadFormProvider({
       }}
     >
       <LoaderBar progress={progress} isLoading={isLoading} theme={theme} />
+      {isError && <ErrorToast error={error} />}
       {children}
     </UploadFormContext.Provider>
   );

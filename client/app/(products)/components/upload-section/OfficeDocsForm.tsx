@@ -6,14 +6,21 @@ import { useRouter } from "next/navigation";
 import { officeToPdf, selectProduct } from "../../services";
 import ChooseFileButton from "./ChooseFileButton";
 import UrlInput from "./UrlInput";
+import { getServerErrorMessage } from "@/utils";
 
 interface OfficeDocsFormProps {
   product: Product;
 }
 
 export default function OfficeDocsForm({ product }: OfficeDocsFormProps) {
-  const { setIsLoading, setProgress, isLoading, setIsModalOpen } =
-    useContext(UploadFormContext);
+  const {
+    setIsLoading,
+    setProgress,
+    isLoading,
+    setIsModalOpen,
+    setIsError,
+    setError,
+  } = useContext(UploadFormContext);
   const fileInput = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
 
@@ -37,6 +44,12 @@ export default function OfficeDocsForm({ product }: OfficeDocsFormProps) {
         } catch (e) {
           setIsLoading(false);
           setProgress(0);
+          setIsError(true);
+          setError(getServerErrorMessage(e));
+          setTimeout(() => {
+            setIsError(false);
+            setError("");
+          }, 3000);
         }
       }
     }

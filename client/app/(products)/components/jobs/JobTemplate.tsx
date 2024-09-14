@@ -15,7 +15,7 @@ export default function JobTemplate({
       initial={{ x: "15%", opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ ease: "easeInOut", duration: 0.5 }}
-      className={`grow h-[90vh] bg-${theme.color}-very-light p-20`}
+      className={`grow h-[90vh] bg-${theme.color}-very-light p-20 relative`}
     >
       {children}
     </motion.div>
