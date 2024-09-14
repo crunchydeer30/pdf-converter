@@ -69,4 +69,16 @@ export class UtilsService {
       }
     }
   }
+
+  async downloadFileFromUrl(url: string) {
+    try {
+      const response = await axios.get(url, {
+        responseType: 'arraybuffer',
+      });
+      return response.data;
+    } catch (error: unknown) {
+      this.logger.error(`Unable to download file ${url}`, url);
+      throw new InternalServerErrorException('Unable to download file');
+    }
+  }
 }

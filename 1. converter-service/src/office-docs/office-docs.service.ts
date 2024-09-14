@@ -31,6 +31,7 @@ export class OfficeDocsService {
 
   async officeToPdfLink(url: string) {
     await this.validateLink(url);
+    const buffer = await this.utils.downloadFileFromUrl(url);
     return { message: 'File uploaded', jobId: url };
   }
 
