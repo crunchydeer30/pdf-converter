@@ -39,4 +39,10 @@ export class ConverterService {
       .send('office:to_pdf', file)
       .pipe(catchError(async (e) => this.utils.handleMicroserviceError(e)));
   }
+
+  async officeToPdfLink(body: unknown) {
+    return this.converterService
+      .send('office:to_pdf_link', body)
+      .pipe(catchError(async (e) => this.utils.handleMicroserviceError(e)));
+  }
 }
