@@ -8,6 +8,7 @@ import {
   MaxFileSizeValidator,
   Param,
   Sse,
+  Body,
 } from '@nestjs/common';
 import { ConverterService } from './converter.service';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -47,5 +48,10 @@ export class ConverterController {
     file: Express.Multer.File,
   ) {
     return this.converterService.officeToPdf(file);
+  }
+
+  @Post('office-to-pdf-link')
+  async officeToPdfLink(@Body() data: unknown) {
+    return this.converterService.officeToPdfLink(data);
   }
 }

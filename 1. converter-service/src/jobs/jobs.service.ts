@@ -135,16 +135,12 @@ export class JobsService {
     return { url, fileName: basename(data.Contents[0].Key) };
   }
 
-  async uploadToS3(
-    jobId: string,
-    file: Express.Multer.File,
-    fileMeta: FileMetadata,
-  ) {
+  async uploadToS3(jobId: string, buffer: Buffer, fileMeta: FileMetadata) {
     try {
       await this.s3.putObject({
         Bucket: this.configService.get('S3_BUCKET'),
         Key: `input/${jobId}/${fileMeta.fileName}`,
-        Body: Buffer.from(file.buffer),
+        Body: Buffer.from(buffer),
       });
       this.logger.info(
         `File uploaded to S3: input/${jobId}/${fileMeta.fileName}`,
