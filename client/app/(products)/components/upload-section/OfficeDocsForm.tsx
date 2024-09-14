@@ -5,13 +5,14 @@ import { Product } from "../../data/products";
 import { useRouter } from "next/navigation";
 import { officeToPdf, selectProduct } from "../../services";
 import ChooseFileButton from "./ChooseFileButton";
+import UrlInput from "./UrlInput";
 
 interface OfficeDocsFormProps {
   product: Product;
 }
 
 export default function OfficeDocsForm({ product }: OfficeDocsFormProps) {
-  const { setIsLoading, setProgress, isLoading } =
+  const { setIsLoading, setProgress, isLoading, setIsModalOpen } =
     useContext(UploadFormContext);
   const fileInput = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
@@ -43,7 +44,7 @@ export default function OfficeDocsForm({ product }: OfficeDocsFormProps) {
 
   return (
     <>
-      <div>
+      <div className="flex flex-col gap-8 items-center">
         <input
           type="file"
           onChange={handleFileChange}
@@ -56,7 +57,19 @@ export default function OfficeDocsForm({ product }: OfficeDocsFormProps) {
           onClick={openFileInput}
           isLoading={isLoading}
         />
+        <div>
+          <button
+            className={`p-3 border border-gray-300 rounded-full bg-white hover:border-${product.theme.color} transition disabled:cursor-not-allowed`}
+            onClick={() => setIsModalOpen(true)}
+            disabled={isLoading}
+          >
+            <svg className="w-5 h-5">
+              <use href={`/assets/icons.svg#link`}></use>
+            </svg>
+          </button>
+        </div>
       </div>
+      <UrlInput theme={product.theme} />
     </>
   );
 }

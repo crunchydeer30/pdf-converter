@@ -12,6 +12,8 @@ export const UploadFormContext = createContext<{
   setIsError: React.Dispatch<React.SetStateAction<boolean>>;
   error: string;
   setError: React.Dispatch<React.SetStateAction<string>>;
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }>({
   progress: 0,
   setProgress: () => null,
@@ -21,6 +23,8 @@ export const UploadFormContext = createContext<{
   setIsError: () => null,
   error: "",
   setError: () => null,
+  isModalOpen: false,
+  setIsModalOpen: () => null,
 });
 
 export function UploadFormProvider({
@@ -34,6 +38,7 @@ export function UploadFormProvider({
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <UploadFormContext.Provider
@@ -46,6 +51,8 @@ export function UploadFormProvider({
         setIsError,
         error,
         setError,
+        isModalOpen,
+        setIsModalOpen,
       }}
     >
       <LoaderBar progress={progress} isLoading={isLoading} theme={theme} />

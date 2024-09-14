@@ -97,7 +97,6 @@ export const selectProduct = (mime: string) => {
 export const selectProductLink = (url: string, mimeType: string) => {
   if (mimeType === "application/x-cfb") {
     mimeType = mime.getType(basename(url)) || "unknown";
-    console.log(2, mimeType);
   }
 
   return selectProduct(mimeType);
