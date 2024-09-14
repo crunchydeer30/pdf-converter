@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { useState } from "react";
-import LoaderBar from "./LoaderBar";
+import LoaderBar from "../components/upload-section/LoaderBar";
 import { Theme } from "@/ui/themes/types/Theme";
 
 export const UploadFormContext = createContext<{
