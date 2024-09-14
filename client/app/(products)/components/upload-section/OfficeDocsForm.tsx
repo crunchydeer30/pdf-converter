@@ -1,24 +1,18 @@
 "use client";
-import ChooseFileButton from "./ChooseFileButton";
+import { useContext, useRef } from "react";
+import { UploadFormContext } from "./UploadFormContext";
 import { Product } from "../../data/products";
-import { useRef } from "react";
 import { useRouter } from "next/navigation";
-import { LoaderProvider } from "@/ui/loader/LoaderContext";
-import LoaderBar from "@/ui/loader/LoaderBar";
-import { useContext } from "react";
-import { LoaderContext } from "@/ui/loader/LoaderContext";
-import { useState } from "react";
 import { officeToPdf, selectProduct } from "../../services";
+import ChooseFileButton from "./ChooseFileButton";
 
-interface UploadOfficeDocsFormProps {
+interface OfficeDocsFormProps {
   product: Product;
 }
 
-export default function UploadOfficeDocsForm({
-  product,
-}: UploadOfficeDocsFormProps) {
-  const { setProgress } = useContext(LoaderContext);
-  const [isLoading, setIsLoading] = useState(false);
+export default function OfficeDocsForm({ product }: OfficeDocsFormProps) {
+  const { setIsLoading, setProgress, isLoading } =
+    useContext(UploadFormContext);
   const fileInput = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
 
@@ -48,9 +42,8 @@ export default function UploadOfficeDocsForm({
   };
 
   return (
-    <LoaderProvider>
-      <LoaderBar theme={product.theme} />
-      <form>
+    <>
+      <div>
         <input
           type="file"
           onChange={handleFileChange}
@@ -63,7 +56,7 @@ export default function UploadOfficeDocsForm({
           onClick={openFileInput}
           isLoading={isLoading}
         />
-      </form>
-    </LoaderProvider>
+      </div>
+    </>
   );
 }

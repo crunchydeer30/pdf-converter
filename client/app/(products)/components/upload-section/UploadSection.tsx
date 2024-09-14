@@ -1,20 +1,19 @@
 import { Theme } from "@/ui/themes/types/Theme";
-import UploadFormWrapper from "./UploadFormWrapper";
 import { Product } from "../../data/products";
+import UploadForm from "./UploadForm";
 
 interface UploadSectionProps {
   product: Product;
-  form: React.ReactNode;
 }
 
-export function UploadSection({ product, form }: UploadSectionProps) {
+export function UploadSection({ product }: UploadSectionProps) {
   return (
     <section
       className={`relative bg-${product.theme.color}-very-light border-b-[1px]`}
     >
       <div className="flex flex-col gap-20 justify-center items-center py-16 container">
         <h2 className="text-s-1 text-xl pt-12">{product.data.subheader}</h2>
-        <UploadFormWrapper product={product}>{form}</UploadFormWrapper>
+        <UploadForm product={product} />
         <div className="flex flex-col gap-12 items-center">
           <h2 className="text-xl font-bold">{product.data.howTo.title}</h2>
           <ol className="grid grid-cols-3 gap-8 steps">
