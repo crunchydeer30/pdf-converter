@@ -27,7 +27,7 @@ export class OfficeDocsService {
     });
     await this.jobsService.uploadToS3(jobId, file.buffer, fileMeta);
     await this.jobsService.create(jobId);
-    return { message: 'File uploaded', jobId };
+    return { message: 'File uploaded', jobId, fileMeta };
   }
 
   async officeToPdfLink(url: string) {
@@ -40,7 +40,7 @@ export class OfficeDocsService {
     });
     await this.jobsService.uploadToS3(jobId, buffer, fileMeta);
     await this.jobsService.create(jobId);
-    return { message: 'File uploaded', jobId };
+    return { message: 'File uploaded', jobId, fileMeta };
   }
 
   async validateLink(url: string): Promise<FileMetadata> {
