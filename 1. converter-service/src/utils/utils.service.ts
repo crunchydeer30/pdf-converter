@@ -38,25 +38,27 @@ export class UtilsService {
     channel.ack(message);
   }
 
-  async fileInfoFromUrl(url: string) {
+  async fileMetadataFromUrl(url: string): Promise<FileMetadata> {
     try {
       const headers = (await axios.head(url)).headers;
-      let contentType = headers['content-type'];
-      const contentLength = headers['content-length'];
+      let fileType = headers['content-type'];
+      const fileSize = headers['content-length'];
 
-      if (contentType === 'application/octet-stream') {
+      if (fileType === 'application/octet-stream') {
         const res = await axios.get(url, {
           responseType: 'arraybuffer',
           headers: {
             Range: 'bytes=0-1023',
           },
         });
-        contentType = (await this.fileTypeFromBuffer(res.data)).mime;
+        fileType = (await this.fileTypeFromBuffer(res.data)).mime;
       }
+      const fileName = path.basename(url);
 
       return {
-        contentType,
-        contentLength,
+        fileName,
+        fileType,
+        fileSize,
       };
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
