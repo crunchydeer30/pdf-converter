@@ -14,6 +14,7 @@ import { ConverterService } from './converter.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AlloweMimesValidator } from './validators/allowed-mimes.validator';
 import { OFFICE_MIMES } from './constants/office-mimes';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller('converter')
 export class ConverterController {
@@ -34,6 +35,12 @@ export class ConverterController {
     return this.converterService.getJobUpdates(jobId);
   }
 
+  @Throttle({
+    default: {
+      ttl: 300000,
+      limit: 20,
+    },
+  })
   @Post('office-to-pdf')
   @UseInterceptors(FileInterceptor('file'))
   async officeToPdf(
@@ -50,6 +57,12 @@ export class ConverterController {
     return this.converterService.officeToPdf(file);
   }
 
+  @Throttle({
+    default: {
+      ttl: 300000,
+      limit: 20,
+    },
+  })
   @Post('office-to-pdf-link')
   async officeToPdfLink(@Body() data: unknown) {
     return this.converterService.officeToPdfLink(data);
