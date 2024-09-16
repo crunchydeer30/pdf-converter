@@ -1,4 +1,3 @@
-import { ThemeDefault } from "@/ui/themes/Themes";
 import type { Metadata } from "next";
 import ThemedLayout from "@/ui/layout/ThemedLayout";
 import { Default } from "../(products)/data/products";
