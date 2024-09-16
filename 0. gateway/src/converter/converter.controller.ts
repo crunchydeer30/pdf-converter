@@ -37,8 +37,8 @@ export class ConverterController {
 
   @Throttle({
     default: {
-      ttl: 600000,
-      limit: 5,
+      ttl: 300000,
+      limit: 20,
     },
   })
   @Post('office-to-pdf')
@@ -59,8 +59,8 @@ export class ConverterController {
 
   @Throttle({
     default: {
-      ttl: 600000,
-      limit: 5,
+      ttl: 300000,
+      limit: 20,
     },
   })
   @Post('office-to-pdf-link')
