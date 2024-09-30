@@ -1,0 +1,4 @@
+https://cumverter.space {
+  reverse_proxy /* client:3000
+  reverse_proxy /api/* gateway:8000
+}
