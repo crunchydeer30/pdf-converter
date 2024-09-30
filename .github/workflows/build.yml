@@ -21,33 +21,33 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-#      - name: gateway:build
-#        uses: docker/build-push-action@v6
-#        with:
-#          push: true
-#          context: "{{defaultContext}}:0. gateway"
-#          tags: ghcr.io/crunchydeer30/pdf-gateway:0.1.0
-#
-#      - name: converter-service:build
-#        uses: docker/build-push-action@v6
-#        with:
-#          push: true
-#          context: "{{defaultContext}}:1. converter-service"
-#          tags: ghcr.io/crunchydeer30/pdf-converter-service:0.1.0
-#
-#      - name: converter-worker:build
-#        uses: docker/build-push-action@v6
-#        with:
-#          push: true
-#          context: "{{defaultContext}}:2. converter-worker"
-#          tags: ghcr.io/crunchydeer30/pdf-converter-worker:0.1.0
-#
-#      - name: cron-service:build
-#        uses: docker/build-push-action@v6
-#        with:
-#          push: true
-#          context: "{{defaultContext}}:3. cron-service"
-#          tags: ghcr.io/crunchydeer30/pdf-cron-service:0.1.0
+      - name: gateway:build
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          context: "{{defaultContext}}:0. gateway"
+          tags: ghcr.io/crunchydeer30/pdf-gateway:0.1.0
+
+      - name: converter-service:build
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          context: "{{defaultContext}}:1. converter-service"
+          tags: ghcr.io/crunchydeer30/pdf-converter-service:0.1.0
+
+      - name: converter-worker:build
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          context: "{{defaultContext}}:2. converter-worker"
+          tags: ghcr.io/crunchydeer30/pdf-converter-worker:0.1.0
+
+      - name: cron-service:build
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          context: "{{defaultContext}}:3. cron-service"
+          tags: ghcr.io/crunchydeer30/pdf-cron-service:0.1.0
 
       - name: client:build
         uses: docker/build-push-action@v6
