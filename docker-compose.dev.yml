@@ -1,50 +1,5 @@
-name: pdf-converter
+name: pdf-converter-dev
 services:
-  gateway:
-    build:
-      context: 0. gateway
-      dockerfile: Dockerfile
-    env_file:
-      - ./.env
-    ports:
-      - 8000:8000
-
-  converter-service:
-    build:
-      context: 1. converter-service
-      dockerfile: Dockerfile
-    env_file:
-      - ./.env
-
-  converter-worker:
-    build:
-      context: 2. converter-worker
-      dockerfile: Dockerfile
-    env_file:
-      - ./.env
-
-  cron-service:
-    build:
-      context: 3. cron-service
-      dockerfile: Dockerfile
-    env_file:
-      - ./.env
-
-  client:
-    build:
-      context: client
-      dockerfile: Dockerfile
-    env_file:
-      - ./.env
-
-  caddy:
-    image: caddy
-    ports:
-      - 80:80
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-
-
   rabbitmq:
     image: rabbitmq:management-alpine
     healthcheck:
