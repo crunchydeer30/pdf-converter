@@ -49,13 +49,13 @@ jobs:
 #          context: "{{defaultContext}}:3. cron-service"
 #          tags: ghcr.io/crunchydeer30/pdf-cron-service:0.1.0
 
+      - name: client:env
+        working-directory: "{{defaultContext}}:client"
+        run: echo "NEXT_PUBLIC_API_GATEWAY=${{ secrets.NEXT_PUBLIC_API_GATEWAY }}" >> .env
+
       - name: client:build
         uses: docker/build-push-action@v6
         with:
           push: true
           context: "{{defaultContext}}:client"
           tags: ghcr.io/crunchydeer30/pdf-client:0.1.0
-          secret-envs: |
-            NEXT_PUBLIC_API_GATEWAY=${{ secrets.NEXT_PUBLIC_API_GATEWAY }}
-          build-args: |
-            NEXT_PUBLIC_API_GATEWAY=${{ secrets.NEXT_PUBLIC_API_GATEWAY }}
