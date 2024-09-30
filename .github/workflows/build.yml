@@ -55,4 +55,7 @@ jobs:
           push: true
           context: "{{defaultContext}}:client"
           tags: ghcr.io/crunchydeer30/pdf-client:0.1.0
-          secret-envs: NEXT_PUBLIC_API_GATEWAY=${{ secrets.NEXT_PUBLIC_API_GATEWAY }}
+          secret-envs: |
+            NEXT_PUBLIC_API_GATEWAY=${{ secrets.NEXT_PUBLIC_API_GATEWAY }}
+          build-args: |
+            NEXT_PUBLIC_API_GATEWAY=${{ secrets.NEXT_PUBLIC_API_GATEWAY }}
