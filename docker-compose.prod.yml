@@ -1,10 +1,9 @@
-name: sevices
 services:
-  gateway:
+  client:
     build:
-      context: "./0. gateway"
+      context: "./client"
       dockerfile: Dockerfile
     ports:
-      - 8000:8000
+      - 3000:3000
     env_file:
       - ./.env
