@@ -51,7 +51,7 @@ jobs:
 
       - name: client:env
         working-directory: "client"
-        run: echo "NEXT_PUBLIC_API_GATEWAY=${{ secrets.NEXT_PUBLIC_API_GATEWAY }}" >> .env
+        run: echo "NEXT_PUBLIC_API_GATEWAY=${{ secrets.NEXT_PUBLIC_API_GATEWAY }}" >> .env && cat .env
 
       - name: client:build
         uses: docker/build-push-action@v6
