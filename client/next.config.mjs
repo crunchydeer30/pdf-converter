@@ -2,7 +2,8 @@
 const nextConfig = {
     output: 'standalone',
     env: {
-        NEXT_PUBLIC_API_GATEWAY: process.env.NEXT_PUBLIC_API_GATEWAY
+        NEXT_PUBLIC_API_GATEWAY: '/api/v1',
+        API_GATEWAY: '/api/v1',
     }
 };
 
