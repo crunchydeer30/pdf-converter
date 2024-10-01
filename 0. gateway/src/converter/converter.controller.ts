@@ -54,6 +54,9 @@ export class ConverterController {
     )
     file: Express.Multer.File,
   ) {
+    file.originalname = Buffer.from(file.originalname, 'latin1').toString(
+      'utf-8',
+    );
     return this.converterService.officeToPdf(file);
   }
 

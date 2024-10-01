@@ -26,9 +26,7 @@ export class UtilsService {
 
   collectFileMetadata(file: Express.Multer.File): FileMetadata {
     return {
-      fileName: Buffer.from(
-        path.basename(file.originalname, 'latin1'),
-      ).toString('utf-8'),
+      fileName: path.basename(file.originalname),
       fileSize: file.size,
       fileType: file.mimetype,
     };
